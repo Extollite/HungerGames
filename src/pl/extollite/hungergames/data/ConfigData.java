@@ -8,7 +8,9 @@ import cn.nukkit.registry.RegistryException;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.Identifier;
 import cn.nukkit.utils.TextFormat;
+import com.nukkitx.nbt.tag.CompoundTag;
 import lombok.Getter;
+import pl.extollite.hungergames.HGUtils.HGItemIds;
 import pl.extollite.hungergames.HGUtils.HGUtils;
 import pl.extollite.hungergames.HG;
 
@@ -76,6 +78,7 @@ public class ConfigData {
         wandItem = wandItem.setLore(lore);
         HG.getInstance().getLogger().info(wandItem.toString());
         wandItem = wandItem.setCustomName(HGUtils.colorize(config.getString("wand.name")));
+        wandItem.setTag(wandItem.getTag().toBuilder().intTag("HGItemID", HGItemIds.WAND.getId()).buildRootTag());
 
 
         bossbar = config.getBoolean("settings.bossbar-countdown");

@@ -8,6 +8,7 @@ import cn.nukkit.item.Item;
 import cn.nukkit.level.Location;
 import cn.nukkit.player.Player;
 import pl.extollite.hungergames.HG;
+import pl.extollite.hungergames.HGUtils.HGItemIds;
 import pl.extollite.hungergames.HGUtils.HGUtils;
 import pl.extollite.hungergames.data.ConfigData;
 import pl.extollite.hungergames.data.WandLocations;
@@ -70,6 +71,6 @@ public class WandListener implements Listener {
 
     private boolean isWand(Item item){
         HG.getInstance().getLogger().info(item.toString());
-        return item.getCustomName() != null && item.getId().equals(ConfigData.wandItem.getId()) && item.getCustomName().equals(ConfigData.wandItem.getCustomName()) && Arrays.equals(item.getLore(), ConfigData.wandItem.getLore());
+        return item.getTag().contains("HGItemID") && item.getTag().getInt("HGItemID") == HGItemIds.WAND.getId();
     }
 }
