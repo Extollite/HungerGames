@@ -22,6 +22,7 @@ public class CompassTask implements Runnable {
 
 	@Override
 	public void run() {
+		//TODO: make it not calculating same distance for two players again
 		for (PlayerData p : playerManager.getPlayerMap().values()) {
 
 			if (p.getPlayer().getInventory().contains(Item.get(ItemIds.COMPASS))) {
@@ -36,7 +37,7 @@ public class CompassTask implements Runnable {
 		}
 		return i;
 	}
-
+	
 	private void setNearestPlayer(Player p, PlayerData pd) {
 
 		Game g = pd.getGame();
