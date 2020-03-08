@@ -1,0 +1,8 @@
+name: ${pom.artifactId}
+main: ${pom.groupId}.HG
+version: "${pom.version}"
+api: ["2.0.0"]
+load: POSTWORLD
+authors: ["Extollite"]
+description: Nukkit jackpot plugin
+prefix: "${pom.artifactId}"

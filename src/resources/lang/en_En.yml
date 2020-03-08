@@ -1,0 +1,139 @@
+#  GENERAL PLUGIN MESSAGES
+prefix: "§6[HG]§f "
+cmd-no-permission: "You don't have permission to use this command"
+
+#  GAME MESSAGES
+#  %player_name% will be replaced with name of player
+player-joined-game: '&b&l%player_name% &7Has joined the game'
+player-left-game: '&b&l%player_name% &cHas left the game'
+
+#  %arena% will be replaced with the name of the arena
+game-started: '&6&l Arena &c&l%arena% &6&lwill begin in 30 seconds!'
+game-join: '&6&l Use:&c&l /hg join %arena%&6&l to join!'
+game-countdown: 'The game will start in %timer% seconds..'
+game-almost-over: '&l&cThe game is almost over, fight to the death!'
+game-ending-minsec: '&aThe game is ending in %minutes% minute(s), and %seconds% second(s)!'
+game-ending-min: '&aThe game is ending in %minutes% minute(s)!'
+game-ending-sec: '&athe game is ending in %seconds% second(s)!'
+game-teleport: '&6The final is coming, you will be teleported in %seconds% second(s) to the center of the arena!'
+game-teleported: '&6Players teleported, final begins!'
+
+game-chests-refill: '&6Chests have been refilled'
+
+# %minutes%/%seconds% will be replaced with the remaining minutes and seconds in a game
+game-bossbar: '&6&lGame Ends In: &b&l%minutes% &7min &b&l%seconds% &7sec'
+
+#  %amount% will be replaced with amount of players left to start a game
+players-to-start: '&b&l%amount% &6players to start!'
+arena-not-ready: '&cThis arena is not ready! Please wait before joining!'
+arena-spectate: '&6You can spectate this arena by running &3/hg spectate %arena%'
+game-full: '&cis currently full!'
+
+# COMMAND MESSAGES
+cmd-description: "HG main command"
+cmd-usage:
+  - "/hga wand - gives executor wand item"
+
+# ADMIN COMMAND MESSAGES
+cmd-admin-description: "HG admin main command"
+cmd-admin-usage:
+  - "/hga wand - gives executor wand item"
+cmd-admin-wand-description: "HG wand command"
+
+## Exit
+cmd-exit-set: '&6Global Exit Spawn Set:'
+
+## Delete
+cmd-delete-attempt: '&aAttempting to delete <arena>!'
+cmd-delete-stopping: '&7- &cGame running! &aStopping..'
+cmd-delete-kicking: '&7- &c&cPlayers detected! &aKicking..'
+cmd-delete-deleted: '&aSuccessfully deleted HungerGames arena &b<arena>!'
+cmd-delete-failed: '&cFailed to delete arena!'
+cmd-delete-noexist: '&cThis arena does not exist!'
+
+
+## LobbyWall
+cmd-sign-set: '&aThe lobbySign has been set!'
+lobby-sign:
+  line-1: '&1&lHunger Games'
+  line-2: '%status%'
+  line-3: '%players_count%'
+  line-4-join: '&0&lJoin %game_name%'
+  line-4-spectate: '&0&lSpectate %game_name%'
+
+# Handler
+cmd-handler-nocmd: '&cYou can not use non-HungerGames commands while in-game!'
+cmd-handler-playing: '&cThis player is currently playing &3HungerGames!'
+
+#  FREE ROAM
+roam-game-started: '&4[]---------[ &6&lThe game has started! &4]---------[]'
+#  %roam^ will be replaced with the time the players can roam for
+roam-time: ' &e You have %roam% seconds to roam without taking damage!'
+roam-finished: '&c&lFree-Roam is over, PVP is now enabled!'
+
+#  LISTENER
+listener-not-running: '&cThe game is not running!'
+listener-no-edit-block: '&cYou cannot edit this block type!'
+listener-no-interact: '&cYou cannot interact until the game has started!'
+listener-sign-click-hand: '&cClick the sign with your hand!'
+
+#  GAME STATUSES
+status-running: '&a&lRunning'
+status-stopped: '&4&lStopped'
+status-ready: '&5&lReady'
+status-waiting: '&b&lWaiting...'
+status-broken: '&4&lBROKEN'
+status-rollback: '&c&lRestoring...'
+status-notready: '&1&lNotReady'
+status-beginning: '&a&lRunning'
+status-countdown: '&b&lStarting...'
+status-final: '&b&lFinal'
+
+# SPECTATORS MESSAGES
+spectator-menu-title: "Teleport"
+spectator-menu-content: "Choose player to teleport to:"
+spectator-compass: '&3Spectator Compass'
+
+#Death messages
+death-fell-accident-generic:
+  - "{%0} fell from a high place"
+death-attack-inFire:
+  - "{%0} went up in flames"
+death-attack-onFire:
+  - "{%0} burned to death"
+death-attack-lava:
+  - "{%0} tried to swim in lava"
+death-attack-lava-magma:
+  - "{%0} discovered floor was lava"
+death-attack-inWall:
+  - "{%0} suffocated in a wall"
+death-attack-drown:
+  - "{%0} drowned"
+death-attack-cactus:
+  - "{%0} was pricked to death"
+death-attack-generic:
+  - "{%0} died"
+death-attack-explosion:
+  - "{%0} blew up"
+death-attack-explosion-player:
+  - "{%0} was blown up by {%1}"
+death-attack-magic:
+  - "{%0} was killed by magic"
+death-attack-wither:
+  - "{%0} withered away"
+death-attack-mob:
+  - "{%0} was slain by {%1}"
+death-attack-player:
+  - "{%0} was slain by {%1}"
+death-attack-player-item:
+  - "{%0} was slain by {%1} using {%2}"
+death-attack-arrow:
+  - "{%0} was shot by {%1}"
+death-attack-arrow-item:
+  - "{%0} was shot by {%1} using {%2}"
+death-attack-fall:
+  - "{%0} hit the ground too hard"
+death-attack-outOfWorld:
+  - "{%0} fell out of the world"
+death-attack-starve:
+  - "{%0} starved to death"

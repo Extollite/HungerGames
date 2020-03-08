@@ -1,0 +1,63 @@
+lang: "en_En"
+
+#if true then only main commands will be listed
+#if false also overloads commands will be listed
+only-main-commands: true
+
+#Game Settings
+settings:
+  free-roam: 25
+  bossbar-countdown: true
+  max-chestcontent: 5
+  min-chestcontent: 1
+  max-bonus-chestcontent: 5
+  min-bonus-chestcontent: 1
+  teleport-at-end: false
+  teleport-at-end-time: 30
+  globalexit:
+    enable: false
+    level: world
+    x: 0
+    y: 0
+    z: 0
+
+#Rollback Settings
+rollback:
+  allow-block-break: false
+  blocks-per-second: 500
+  protect-during-cooldown: true
+  fix-leaves: true
+  prevent-trampling: true
+  editable-blocks:
+    - GRASS
+    - TALL_GRASS
+    - GRASS_BLOCK
+    - DIRT
+    - COBBLESTONE
+    - OAK_PLANKS
+    - SANDSTONE
+    - WHITE_WOOL
+    - STONE_BRICKS
+    - GLASS_PANE
+
+final:
+  enabled: false
+  countdown-start: 70
+  countdown-end: 65
+  countdown-freeze: 5
+  center-on-first-spawn: true
+  radius: 30
+
+spectate:
+  enabled: false
+  on-death: true
+  chat: false
+
+#Wand
+wand:
+  id: "blaze_rod"
+  name: "&3HungerGames Wand"
+  lore:
+    - "&7Left-Click to set position 1"
+    - "&7Right-Click to set position 2"
+
