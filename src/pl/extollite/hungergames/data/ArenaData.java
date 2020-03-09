@@ -9,7 +9,6 @@ import com.nukkitx.math.vector.Vector3i;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.game.Bound;
 import pl.extollite.hungergames.game.Game;
-import pl.extollite.hungergames.tasks.CompassTask;
 
 import java.util.*;
 
@@ -17,7 +16,7 @@ public class ArenaData {
     public static void load(){
         Config arenas = new Config(HG.getInstance().getDataFolder()+"/arenas.yml", Config.YAML);
         if(arenas.exists("arenas")){
-            new CompassTask();
+            //new CompassTask();
             for(String arena : arenas.getKeys(false)){
                 boolean isReady = true;
                 List<Location> spawns = new ArrayList<>();

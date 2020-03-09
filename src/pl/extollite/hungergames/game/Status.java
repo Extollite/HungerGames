@@ -46,7 +46,11 @@ public enum Status {
 	 */
 	COUNTDOWN,
 	/**
-	 * Game is final battle
+	 * Game is counting down to final
+	 */
+	FINAL_COUNTDOWN,
+	/**
+	 * Game is final state
 	 */
 	FINAL;
 

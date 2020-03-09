@@ -38,7 +38,7 @@ public class FinalTask implements Runnable {
             for (Player p : game.getPlayers()) {
                 p.sendTitle("Fight!");
                 game.unFreeze(p);
-                game.setStatus(Status.RUNNING);
+                game.setStatus(Status.FINAL);
             }
             stop();
         } else{

@@ -312,7 +312,7 @@ public class Game {
      */
     public void join(Player player) {
         UUID uuid = player.getServerId();
-        if (status != Status.WAITING && status != Status.STOPPED && status != Status.COUNTDOWN && status != Status.READY) {
+        if (status != Status.WAITING && status != Status.STOPPED && status != Status.COUNTDOWN && status != Status.READY && status != Status.FINAL_COUNTDOWN) {
             HGUtils.sendMessage(player, getLang().getArena_not_ready());
             if ((status == Status.RUNNING || status == Status.BEGINNING || status == Status.FINAL) && ConfigData.spectateEnabled) {
                 HGUtils.sendMessage(player, getLang().getArena_spectate().replace("%arena%", this.getName()));
@@ -531,7 +531,7 @@ public class Game {
             freeze(p);
         }
         HG.getInstance().getServer().getPluginManager().callEvent(new GameFinalEvent(this, playersInGame));
-        status = Status.FINAL;
+        status = Status.FINAL_COUNTDOWN;
         updateLobbyBlock();
         msgAll(getLang().getGame_teleported());
     }
@@ -647,7 +647,7 @@ public class Game {
     }
 
     private void updateAfterDeath(Player player, boolean death) {
-        if (status == Status.RUNNING || status == Status.BEGINNING || status == Status.COUNTDOWN || status == Status.FINAL) {
+        if (status == Status.RUNNING || status == Status.BEGINNING || status == Status.COUNTDOWN || status == Status.FINAL_COUNTDOWN || status == Status.FINAL) {
             if (isGameOver()) {
                 if (!death) {
                     for (Player p : players) {

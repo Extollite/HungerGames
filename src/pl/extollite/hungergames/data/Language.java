@@ -38,12 +38,10 @@ public class Language {
 
 
     // Command Translations
-    private String cmd_description;
     private List<String> cmd_admin_usage;
-    private String cmd_admin_wand_description;
+
 
     // Admin Command Translations
-    private String cmd_admin_description;
     private List<String> cmd_usage;
 
     private String cmd_sign_set;
@@ -51,11 +49,23 @@ public class Language {
     private String cmd_handler_nocmd;
     private String cmd_handler_playing;
 
+    private String cmd_create_need_selection;
+    private String cmd_create_divisible_1;
+    private String cmd_create_divisible_2;
+    private String cmd_create_minmax;
+    private String cmd_create_created;
+
+    private String cmd_spawn_same;
+    private String cmd_spawn_set;
+
+    private String cmd_exit_set;
+
     private String cmd_delete_attempt;
     private String cmd_delete_kicking;
     private String cmd_delete_deleted;
     private String cmd_delete_failed;
     private String cmd_delete_noexist;
+    
     
     // Status Translations
     private String status_running;
@@ -147,17 +157,26 @@ public class Language {
         game_full = langFile.getString("game-full");
         player_won = langFile.getString("player-won");
         
-        cmd_description = langFile.getString("cmd-description");
         cmd_usage = langFile.getStringList("cmd-usage");
 
-        cmd_admin_description = langFile.getString("cmd-admin-description");
         cmd_no_permission = langFile.getString("cmd-no-permission");
         cmd_admin_usage = langFile.getStringList("cmd-admin-usage");
-        cmd_admin_wand_description = langFile.getString("cmd-admin-wand-description");
-        cmd_admin_wand_description = langFile.getString("cmd-sign-set");
+
+        cmd_sign_set = langFile.getString("cmd-sign-set");
+
+        cmd_exit_set = langFile.getString("cmd-exit-set");
 
         cmd_handler_nocmd = langFile.getString("cmd-handler-nocmd");
         cmd_handler_playing = langFile.getString("cmd-handler-playing");
+        
+        cmd_create_need_selection = langFile.getString("cmd-create-need-selection");
+        cmd_create_divisible_1 = langFile.getString("cmd-create-divisible-1");
+        cmd_create_divisible_2 = langFile.getString("cmd-create-divisible-2");
+        cmd_create_minmax = langFile.getString("cmd-create-minmax");
+        cmd_create_created = langFile.getString("cmd-create-created");
+
+        cmd_spawn_same = langFile.getString("cmd-spawn-same");
+        cmd_spawn_set = langFile.getString("cmd-spawn-set");
 
         cmd_delete_attempt = langFile.getString("cmd-delete-attempt");
         cmd_delete_kicking = langFile.getString("cmd-delete-kicking");

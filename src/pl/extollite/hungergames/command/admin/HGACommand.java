@@ -17,7 +17,7 @@ public class HGACommand extends CommandManager {
     private final Map<String, Command> commands;
 
     public HGACommand() {
-        super("hga", HG.getInstance().getLanguage().getCmd_admin_description(), "/hga <command>");
+        super("hga", "", "/hga <command>");
 
         this.setAliases(new String[]{"hungergamesadmin"});
         Permission permission = new Permission("hg.admin.command");

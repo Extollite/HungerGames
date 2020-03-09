@@ -18,7 +18,7 @@ import java.util.Map;
 public class WandCommand extends CommandManager {
     
     public WandCommand() {
-        super("hgawand", HG.getInstance().getLanguage().getCmd_admin_wand_description(), "/hga wand");
+        super("hgawand", "", "/hga wand");
         List<CommandParameter[]> parameters = new LinkedList<>();
         this.setCommandParameters(parameters);
         Permission permission = new Permission("hg.admin.command.wand");

@@ -8,14 +8,12 @@ import cn.nukkit.registry.RegistryException;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.Identifier;
 import cn.nukkit.utils.TextFormat;
-import com.nukkitx.nbt.tag.CompoundTag;
 import lombok.Getter;
 import pl.extollite.hungergames.HGUtils.HGItemIds;
 import pl.extollite.hungergames.HGUtils.HGUtils;
 import pl.extollite.hungergames.HG;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -58,7 +56,7 @@ public class ConfigData {
     public static boolean spectateChat;
 
 
-    public ConfigData(Config config){
+    public static void load(Config config){
         lang = config.getString("lang", "en_En");
 
         only_main_commands = config.getBoolean("only-main-commands");
@@ -76,7 +74,6 @@ public class ConfigData {
             lore[i] = HGUtils.colorize(lore[i]);
         }
         wandItem = wandItem.setLore(lore);
-        HG.getInstance().getLogger().info(wandItem.toString());
         wandItem = wandItem.setCustomName(HGUtils.colorize(config.getString("wand.name")));
         wandItem.setTag(wandItem.getTag().toBuilder().intTag("HGItemID", HGItemIds.WAND.getId()).buildRootTag());
 

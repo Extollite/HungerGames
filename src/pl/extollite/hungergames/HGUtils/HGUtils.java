@@ -36,10 +36,12 @@ public class HGUtils {
             count++;
             if (count == 1) bc = new StringBuilder(s);
             else if (count == win.size()) {
-                assert bc != null;
+                if(bc == null)
+                    continue;
                 bc.append(", and ").append(s);
             } else {
-                assert bc != null;
+                if(bc == null)
+                    continue;
                 bc.append(", ").append(s);
             }
         }

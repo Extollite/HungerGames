@@ -30,18 +30,27 @@ arena-spectate: '&6You can spectate this arena by running &3/hg spectate %arena%
 game-full: '&cis currently full!'
 
 # COMMAND MESSAGES
-cmd-description: "HG main command"
 cmd-usage:
   - "/hga wand - gives executor wand item"
 
 # ADMIN COMMAND MESSAGES
-cmd-admin-description: "HG admin main command"
 cmd-admin-usage:
   - "/hga wand - gives executor wand item"
-cmd-admin-wand-description: "HG wand command"
 
 ## Exit
 cmd-exit-set: '&6Global Exit Spawn Set:'
+
+##Create
+cmd-create-need-selection: '&cYou need to make a selection before making an arena!'
+cmd-create-divisible-1: '&cTime-in-seconds must be divisible by 30!'
+cmd-create-divisible-2: '&cEx: 90 is divisible by 30'
+cmd-create-minmax: '&cmin-players cannot be more then max-players!'
+cmd-create-created: '&aYou created HungerGames arena &b%arena%&a!'
+
+## Spawn
+cmd-spawn-same: '&cYou cannot have two spawns in the same location!'
+cmd-spawn-set: 'You set HungerGames spawn #%number%!'
+
 
 ## Delete
 cmd-delete-attempt: '&aAttempting to delete <arena>!'
@@ -53,7 +62,7 @@ cmd-delete-noexist: '&cThis arena does not exist!'
 
 
 ## LobbyWall
-cmd-sign-set: '&aThe lobbySign has been set!'
+cmd-sign-set: '&aThe lobby sign has been set!'
 lobby-sign:
   line-1: '&1&lHunger Games'
   line-2: '%status%'

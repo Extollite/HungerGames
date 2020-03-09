@@ -30,7 +30,7 @@ public class TimerTask implements Runnable {
 	
 	@Override
 	public void run() {
-		if (game == null || game.getStatus() != Status.RUNNING) stop(); //A quick null check!
+		if (game == null || game.getStatus() != Status.RUNNING || game.getStatus() != Status.FINAL) stop(); //A quick null check!
 
 		if (ConfigData.finalEnabled && remainingtime == finalCountdownStart) {
 			game.setFinalize(new FinalTask(game));

@@ -19,7 +19,7 @@ public class HGCommand extends CommandManager {
     private final Map<String, Command> commands;
 
     public HGCommand() {
-        super("hg", HG.getInstance().getLanguage().getCmd_description(), "/hg <command>");
+        super("hg", "", "/hg <command>");
 
         this.setAliases(new String[]{"hungergames"});
         Permission permission = new Permission("hg.command", null, Permission.DEFAULT_TRUE);

@@ -27,8 +27,7 @@ public class WandListener implements Listener {
         PlayerInteractEvent.Action action = event.getAction();
         HG.getInstance().getLogger().info(action + " " + event.getBlock());
 
-        assert event.getBlock() != null;
-        if (action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
+        if (event.getBlock() != null && action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
             if (!isWand(event.getItem())) return;
             if (!HG.getInstance().getWandLocationsMap().containsKey(player.getServerId())) return;
             Block b = event.getBlock();

@@ -60,20 +60,17 @@ public class GameListener implements Listener {
         PlayerInventory inv = p.getInventory();
         Location l = p.getLocation();
         for (Item i : inv.getContents().values()) {
-            if (i != null && !i.getId().equals(BlockIds.AIR)) {
-                assert l.getLevel() != null;
+            if (i != null && !i.getId().equals(BlockIds.AIR) && l.getLevel() != null) {
                 l.getLevel().dropItem(l.getPosition(), i);
             }
         }
         for (Item i : inv.getArmorContents()) {
-            if (i != null && !i.getId().equals(BlockIds.AIR)) {
-                assert l.getLevel() != null;
+            if (i != null && !i.getId().equals(BlockIds.AIR) && l.getLevel() != null) {
                 l.getLevel().dropItem(l.getPosition(), i);
             }
         }
         Item i = inv.getOffHand();
-        if (i != null && !i.getId().equals(BlockIds.AIR)) {
-            assert l.getLevel() != null;
+        if (i != null && !i.getId().equals(BlockIds.AIR) && l.getLevel() != null) {
             l.getLevel().dropItem(l.getPosition(), i);
         }
     }
@@ -90,7 +87,7 @@ public class GameListener implements Listener {
             if (pd != null) {
                 Game game = pd.getGame();
 
-                if (game.getStatus() != Status.RUNNING) {
+                if (game.getStatus() != Status.RUNNING && game.getStatus() != Status.FINAL) {
                     event.setCancelled(true);
                 } else if (event.getFinalDamage() >= player.getHealth()) {
                     if (hasTotem(player)) return;
@@ -166,7 +163,7 @@ public class GameListener implements Listener {
         Player p = event.getPlayer();
         if (playerManager.hasPlayerData(p)) {
             Status st = playerManager.getPlayerData(p).getGame().getStatus();
-            if (st == Status.WAITING || st == Status.COUNTDOWN || st == Status.FINAL) {
+            if (st == Status.WAITING || st == Status.COUNTDOWN || st == Status.FINAL_COUNTDOWN) {
                 event.setFoodLevel(1);
                 event.setCancelled(true);
             }
@@ -196,7 +193,9 @@ public class GameListener implements Listener {
         Player p = event.getPlayer();
         if (event.getAction() == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && playerManager.hasPlayerData(p)) {
             Block block = event.getBlock();
-            assert block != null;
+            if(block == null){
+                return;
+            }
             PlayerData pd = playerManager.getPlayerData(p);
             if (isChest(block)) {
                 plugin.getServer().getPluginManager().callEvent(new ChestOpenEvent(pd.getGame(), block, false));
@@ -216,7 +215,7 @@ public class GameListener implements Listener {
         }
         if (event.getAction() != PlayerInteractEvent.Action.PHYSICAL && playerManager.hasPlayerData(p)) {
             Status st = playerManager.getPlayerData(p).getGame().getStatus();
-            if (st == Status.WAITING || st == Status.COUNTDOWN || st == Status.FINAL) {
+            if (st == Status.WAITING || st == Status.COUNTDOWN || st == Status.FINAL_COUNTDOWN) {
                 event.setCancelled(true);
                 HGUtils.sendMessage(p, lang.getListener_no_interact());
             }
@@ -249,7 +248,9 @@ public class GameListener implements Listener {
             if(!(b.getLevel().getBlockEntity(b.getPosition()) instanceof Sign))
                 return;
             Sign sign = (Sign)b.getLevel().getBlockEntity(b.getPosition());
-            assert sign != null;
+            if(sign == null){
+                return;
+            }
             if (sign.getText().length == 4 && sign.getText()[0].equals(HGUtils.colorize(lang.getLine_1()))) {
                 Game game = Manager.getGame(sign.getText()[3].split(" ")[1]);
                 if (game == null) {
@@ -275,7 +276,7 @@ public class GameListener implements Listener {
             if (ConfigData.breakblocks && playerManager.hasPlayerData(p)) {
                 Game g = playerManager.getPlayerData(p).getGame();
                 if (g.getStatus() == Status.RUNNING || g.getStatus() == Status.BEGINNING || g.getStatus() == Status.FINAL) {
-                    if (!ConfigData.blocks.contains(b.getId()) && !ConfigData.blocks.contains("ALL")) {
+                    if (!ConfigData.blocks.contains(b.getId()) && !ConfigData.blocks.contains(Identifier.EMPTY)) {
                         HGUtils.sendMessage(p, lang.getListener_no_edit_block());
                         event.setCancelled(true);
                     } else {
@@ -306,7 +307,7 @@ public class GameListener implements Listener {
         if (game != null) {
             if (ConfigData.breakblocks && playerManager.hasPlayerData(player)) {
                 Game g = playerManager.getPlayerData(player).getGame();
-                if (g.getStatus() == Status.RUNNING || !ConfigData.protectCooldown) {
+                if (g.getStatus() == Status.RUNNING || g.getStatus() == Status.FINAL || !ConfigData.protectCooldown) {
                     if (!ConfigData.blocks.contains(b.getId()) && !ConfigData.blocks.contains(Identifier.EMPTY)) {
                         HGUtils.sendMessage(player, lang.getListener_no_edit_block());
                         event.setCancelled(true);
@@ -355,7 +356,7 @@ public class GameListener implements Listener {
         Game game = Manager.isInRegion(loc);
         if (game != null) {
             if (ConfigData.breakblocks && playerManager.hasPlayerData(player)) {
-                if (game.getStatus() == Status.RUNNING || !ConfigData.protectCooldown) {
+                if (game.getStatus() == Status.RUNNING || game.getStatus() == Status.FINAL || !ConfigData.protectCooldown) {
                     if (!WATER && !LAVA && !ConfigData.blocks.contains(Identifier.EMPTY) && !ConfigData.blocks.contains(block.getId())) {
                         HGUtils.sendMessage(player, lang.getListener_no_edit_block());
                         event.setCancelled(true);
@@ -384,8 +385,7 @@ public class GameListener implements Listener {
         Game game = Manager.isInRegion(p.getLocation());
         if (game != null) {
             if (event.getAction() == PlayerInteractEvent.Action.PHYSICAL) {
-                assert event.getBlock() != null;
-                if (event.getBlock().getId().equals(BlockIds.FARMLAND)) {
+                if (event.getBlock() != null && event.getBlock().getId().equals(BlockIds.FARMLAND)) {
                     event.setCancelled(true);
                 }
             }
@@ -411,7 +411,7 @@ public class GameListener implements Listener {
             Game g = Manager.isInRegion(event.getLocation());
             if (g != null) {
                 if (entity instanceof EntityLiving) {
-                    if (g.getStatus() != Status.RUNNING) {
+                    if (g.getStatus() != Status.RUNNING && g.getStatus() != Status.FINAL) {
                         event.setCancelled(true);
                         return;
                     }
@@ -471,10 +471,52 @@ public class GameListener implements Listener {
         Player player = event.getPlayer();
         Location location = event.getTo();
         for (Game game : plugin.getGames()) {
-            if (game.isInRegion(location) && game.getStatus() == Status.RUNNING) {
+            if (game.isInRegion(location) && (game.getStatus() == Status.RUNNING || game.getStatus() == Status.FINAL || game.getStatus() == Status.FINAL_COUNTDOWN)) {
                 if (event.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL && !game.getPlayers().contains(player) && !game.getSpectators().contains(player)) {
                     event.setCancelled(true);
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    private void onMove(PlayerMoveEvent event){
+        Player player = event.getPlayer();
+        PlayerData pd = playerManager.getPlayerData(player);
+        if(pd == null)
+            return;
+        if(pd.getGame().getStatus() != Status.FINAL)
+            return;
+        if(!event.getFrom().getBlock().getPosition().equals(event.getTo().getBlock().getPosition())){
+            if(event.getTo().getPosition().distanceSquared(pd.getGame().getSpawns().get(0).getPosition()) > (ConfigData.finalRadius*ConfigData.finalRadius)){
+                player.teleportImmediate(event.getTo());
+                event.setCancelled();
+            }
+        }
+    }
+
+    @EventHandler
+    private void onHeldCompass(PlayerItemHeldEvent event){
+        Player player = event.getPlayer();
+        PlayerData pd = playerManager.getPlayerData(player);
+        if(pd == null)
+            return;
+        if(pd.getGame().getStatus() != Status.RUNNING)
+            return;
+        if(event.getItem().getId().equals(ItemIds.COMPASS)) {
+            float distance = Float.MAX_VALUE;
+            Player nearestPlayer = player;
+            for(Player p : pd.getGame().getPlayers()){
+                if(!p.equals(player)){
+                    float newDistance = player.getPosition().distanceSquared(p.getPosition());
+                    if(distance < newDistance){
+                        distance = newDistance;
+                        nearestPlayer = p;
+                    }
+                }
+            }
+            if(nearestPlayer != player){
+                player.setSpawn(nearestPlayer.getLocation());
             }
         }
     }

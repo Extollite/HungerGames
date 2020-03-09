@@ -5,8 +5,7 @@ import cn.nukkit.player.Player;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
 import lombok.Getter;
-import pl.extollite.hungergames.command.admin.HGACommand;
-import pl.extollite.hungergames.command.admin.WandCommand;
+import pl.extollite.hungergames.command.admin.*;
 import pl.extollite.hungergames.data.*;
 import pl.extollite.hungergames.game.Game;
 import pl.extollite.hungergames.listener.CancelListener;
@@ -42,7 +41,7 @@ public class HG extends PluginBase {
         instance = this;
         List<String> authors = this.getDescription().getAuthors();
         this.getLogger().info(TextFormat.DARK_GREEN + "Plugin by " + authors.get(0));
-        new ConfigData(this.getConfig());
+        ConfigData.load(this.getConfig());
 
         language = new Language();
         playerManager = new PlayerManager();
@@ -73,11 +72,31 @@ public class HG extends PluginBase {
         this.getServer().getCommandMap().register(this, this.mainAdminCommand);
         if(ConfigData.only_main_commands){
             mainAdminCommand.registerCommand(new WandCommand());
+            mainAdminCommand.registerCommand(new CreateCommand());
+            mainAdminCommand.registerCommand(new AddSpawnCommand());
+            mainAdminCommand.registerCommand(new SetSignCommand());
+            mainAdminCommand.registerCommand(new SetExitCommand());
+            mainAdminCommand.registerCommand(new DeleteCommand());
         }
         else{
             WandCommand wandCommand = new WandCommand();
-            mainAdminCommand.registerCommand(new WandCommand());
+            mainAdminCommand.registerCommand(wandCommand);
             this.getServer().getCommandMap().register(this, wandCommand);
+            CreateCommand createCommand = new CreateCommand();
+            mainAdminCommand.registerCommand(createCommand);
+            this.getServer().getCommandMap().register(this, createCommand);
+            AddSpawnCommand addSpawnCommand = new AddSpawnCommand();
+            mainAdminCommand.registerCommand(addSpawnCommand);
+            this.getServer().getCommandMap().register(this, addSpawnCommand);
+            SetSignCommand setSignCommand = new SetSignCommand();
+            mainAdminCommand.registerCommand(setSignCommand);
+            this.getServer().getCommandMap().register(this, setSignCommand);
+            SetExitCommand setExitCommand = new SetExitCommand();
+            mainAdminCommand.registerCommand(setExitCommand);
+            this.getServer().getCommandMap().register(this, setExitCommand);
+            DeleteCommand deleteCommand = new DeleteCommand();
+            mainAdminCommand.registerCommand(deleteCommand);
+            this.getServer().getCommandMap().register(this, deleteCommand);
         }
     }
 

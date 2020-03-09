@@ -35,8 +35,8 @@ public class Manager {
 			HGUtils.sendMessage(player, "&cYour arena is marked as broken! use &7/hg debug &c to check for errors!");
 			HGUtils.sendMessage(player, "&cIf no errors are found, please use &7/hg toggle " + game.getName() + "&c!");
 		} else if (!game.isLobbyValid()) {
-			HGUtils.sendMessage(player, "&cYour LobbyWall is invalid! Please reset them!");
-			HGUtils.sendMessage(player, "&cSet lobbywall: &7/hg setlobbywall " + game.getName());
+			HGUtils.sendMessage(player, "&cYour lobby sign is invalid! Please reset them!");
+			HGUtils.sendMessage(player, "&cSet lobby sign: &7/hg setsign " + game.getName());
 		} else {
 			HGUtils.sendMessage(player, "&aYour HungerGames arena is ready to run!");
 			game.setStatus(Status.WAITING);
