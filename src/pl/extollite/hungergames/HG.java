@@ -6,6 +6,9 @@ import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
 import lombok.Getter;
 import pl.extollite.hungergames.command.admin.*;
+import pl.extollite.hungergames.command.user.HGCommand;
+import pl.extollite.hungergames.command.user.JoinCommand;
+import pl.extollite.hungergames.command.user.LeaveCommand;
 import pl.extollite.hungergames.data.*;
 import pl.extollite.hungergames.game.Game;
 import pl.extollite.hungergames.listener.CancelListener;
@@ -29,6 +32,7 @@ public class HG extends PluginBase {
     private Leaderboard leaderboard;
 
     private HGACommand mainAdminCommand;
+    private HGCommand mainCommand;
 
     private Map<UUID, WandLocations> wandLocationsMap = new HashMap<>();
     private List<Game> games = new LinkedList<>();
@@ -40,7 +44,7 @@ public class HG extends PluginBase {
         this.saveDefaultConfig();
         instance = this;
         List<String> authors = this.getDescription().getAuthors();
-        this.getLogger().info(TextFormat.DARK_GREEN + "Plugin by " + authors.get(0));
+        this.getLogger().info(TextFormat.DARK_GREEN + "Plugin by " + String.join(", ", authors));
         ConfigData.load(this.getConfig());
 
         language = new Language();
@@ -69,16 +73,31 @@ public class HG extends PluginBase {
 
     private void loadCommmands(){
         mainAdminCommand = new HGACommand();
+        mainCommand = new HGCommand();
         this.getServer().getCommandMap().register(this, this.mainAdminCommand);
+        this.getServer().getCommandMap().register(this, mainCommand);
         if(ConfigData.only_main_commands){
+            mainCommand.registerCommand(new JoinCommand());
+            mainCommand.registerCommand(new LeaveCommand());
+            
             mainAdminCommand.registerCommand(new WandCommand());
             mainAdminCommand.registerCommand(new CreateCommand());
             mainAdminCommand.registerCommand(new AddSpawnCommand());
             mainAdminCommand.registerCommand(new SetSignCommand());
             mainAdminCommand.registerCommand(new SetExitCommand());
             mainAdminCommand.registerCommand(new DeleteCommand());
+            mainAdminCommand.registerCommand(new ToggleCommand());
+            mainAdminCommand.registerCommand(new ForceStartCommand());
+            mainAdminCommand.registerCommand(new ForceStopCommand());
         }
         else{
+            JoinCommand joinCommand = new JoinCommand();
+            mainCommand.registerCommand(joinCommand);
+            this.getServer().getCommandMap().register(this, joinCommand);
+            LeaveCommand leaveCommand = new LeaveCommand();
+            mainCommand.registerCommand(leaveCommand);
+            this.getServer().getCommandMap().register(this, leaveCommand);
+            
             WandCommand wandCommand = new WandCommand();
             mainAdminCommand.registerCommand(wandCommand);
             this.getServer().getCommandMap().register(this, wandCommand);
@@ -97,6 +116,15 @@ public class HG extends PluginBase {
             DeleteCommand deleteCommand = new DeleteCommand();
             mainAdminCommand.registerCommand(deleteCommand);
             this.getServer().getCommandMap().register(this, deleteCommand);
+            ToggleCommand toggleCommand = new ToggleCommand();
+            mainAdminCommand.registerCommand(toggleCommand);
+            this.getServer().getCommandMap().register(this, toggleCommand);
+            ForceStartCommand forceStartCommand = new ForceStartCommand();
+            mainAdminCommand.registerCommand(forceStartCommand);
+            this.getServer().getCommandMap().register(this, forceStartCommand);
+            ForceStopCommand forceStopCommand = new ForceStopCommand();
+            mainAdminCommand.registerCommand(forceStopCommand);
+            this.getServer().getCommandMap().register(this, forceStopCommand);
         }
     }
 
