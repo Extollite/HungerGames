@@ -50,7 +50,6 @@ public class Game {
     private Map<Integer, Item> bonusItems;
     private Map<Player, Integer> kills = new HashMap<>();
 
-    private List<String> commands = null;
     private PlayerManager playerManager;
     private Status status;
     private int minPlayers;
@@ -192,16 +191,6 @@ public class Game {
     }
 
     /**
-     * Add a command to the list of commands for this game
-     *
-     * @param command The command to add
-     * @param type    The type of the command
-     */
-    public void addCommand(String command, CommandType type) {
-        this.commands.add(type.getType() + ":" + command);
-    }
-
-    /**
      * Add a kill to a player
      *
      * @param player The player to add a kill to
@@ -312,9 +301,9 @@ public class Game {
      */
     public void join(Player player) {
         UUID uuid = player.getServerId();
-        if (status != Status.WAITING && status != Status.STOPPED && status != Status.COUNTDOWN && status != Status.READY && status != Status.FINAL_COUNTDOWN) {
+        if (status != Status.WAITING && status != Status.STOPPED && status != Status.COUNTDOWN && status != Status.READY) {
             HGUtils.sendMessage(player, getLang().getArena_not_ready());
-            if ((status == Status.RUNNING || status == Status.BEGINNING || status == Status.FINAL) && ConfigData.spectateEnabled) {
+            if ((status == Status.RUNNING || status == Status.BEGINNING || status == Status.FINAL || status == Status.FINAL_COUNTDOWN) && ConfigData.spectateEnabled) {
                 HGUtils.sendMessage(player, getLang().getArena_spectate().replace("%arena%", this.getName()));
             }
         } else if (maxPlayers <= players.size()) {
@@ -351,13 +340,12 @@ public class Game {
                 if (players.size() >= minPlayers && (status == Status.WAITING || status == Status.READY)) {
                     startPreGame();
                 } else if (status == Status.WAITING) {
-                    HGUtils.broadcast(getLang().getPlayer_joined_game().replace("%player%",
+                    HGUtils.broadcast(getLang().getPlayer_joined_game().replace("%player_name%",
                             player.getName()) + (minPlayers - players.size() <= 0 ? "!" : ":" +
                             getLang().getPlayers_to_start().replace("%amount%", String.valueOf((minPlayers - players.size())))));
                 }
 
                 updateLobbyBlock();
-                runCommands(CommandType.JOIN, player);
             }, 5);
         }
     }
@@ -392,7 +380,6 @@ public class Game {
         updateLobbyBlock();
         bound.removeEntities();
         freeRoam = new FreeRoamTask(this);
-        runCommands(CommandType.START, null);
     }
 
     /**
@@ -464,10 +451,12 @@ public class Game {
 
     private void updateLobbyBlock() {
         String[] lines = new String[4];
-        lines[0] = getLang().getLine_1();
-        lines[1] = getLang().getLine_2().replace("%status%", status.getName());
-        lines[2] = getLang().getLine_3().replace("%players_count%", "" + players.size() + "/" + maxPlayers);
-        lines[3] = getLang().getLine_4_spectate().replace("%game_name%", this.name);
+        lines[0] = HGUtils.colorize(getLang().getLine_1());
+        lines[1] = HGUtils.colorize(getLang().getLine_2().replace("%status%", status.getName()));
+        lines[2] = HGUtils.colorize(getLang().getLine_3().replace("%players_count%", "" + players.size() + "/" + maxPlayers));
+        if(status != Status.WAITING && status != Status.STOPPED && status != Status.COUNTDOWN && status != Status.READY)
+            lines[3] = HGUtils.colorize(getLang().getLine_4_spectate().replace("%game_name%", this.name));
+        lines[3] = HGUtils.colorize(getLang().getLine_4_join().replace("%game_name%", this.name));
         s.setText(lines);
     }
 
@@ -507,10 +496,12 @@ public class Game {
         try {
             this.s = sign;
             String[] lines = new String[4];
-            lines[0] = getLang().getLine_1();
-            lines[1] = getLang().getLine_2().replace("%status%", status.getName());
-            lines[2] = getLang().getLine_3().replace("%players_count%", "" + players.size() + "/" + maxPlayers);
-            lines[3] = getLang().getLine_4_join().replace("%game_name%", this.name);
+            lines[0] = HGUtils.colorize(getLang().getLine_1());
+            lines[1] = HGUtils.colorize(getLang().getLine_2().replace("%status%", status.getName()));
+            lines[2] = HGUtils.colorize(getLang().getLine_3().replace("%players_count%", "" + players.size() + "/" + maxPlayers));
+            if(status != Status.WAITING && status != Status.STOPPED && status != Status.COUNTDOWN && status != Status.READY)
+                lines[3] = HGUtils.colorize(getLang().getLine_4_spectate().replace("%game_name%", this.name));
+            lines[3] = HGUtils.colorize(getLang().getLine_4_join().replace("%game_name%", this.name));
             s.setText(lines);
         } catch (Exception e) {
             return;
@@ -605,7 +596,6 @@ public class Game {
         HG.getInstance().getServer().loadLevel().id(bound.getLevel().getId()).load();
         status = Status.READY;
         updateLobbyBlock();
-        runCommands(CommandType.STOP, null);
 
         // Call GameEndEvent
         Collection<Player> winners = new ArrayList<>();
@@ -664,7 +654,7 @@ public class Game {
 
             }
         } else if (status == Status.WAITING) {
-            msgAll(getLang().getPlayer_left_game().replace("%player%", player.getName()) +
+            msgAll(getLang().getPlayer_left_game().replace("%player_name%", player.getName()) +
                     (minPlayers - players.size() <= 0 ? "!" : ":" + getLang().getPlayers_to_start()
                             .replace("%amount%", String.valueOf((minPlayers - players.size())))));
         }
@@ -751,67 +741,6 @@ public class Game {
         playerManager.getSpectatorData(uuid).restore(spectator);
         playerManager.removeSpectatorData(uuid);
         spectators.remove(spectator);
-    }
-
-    /**
-     * Run commands for this game that are defined in the arenas.yml
-     *
-     * @param commandType Type of command to run
-     * @param player      The player involved (can be null)
-     */
-    @SuppressWarnings("ConstantConditions")
-    public void runCommands(CommandType commandType, @Nullable Player player) {
-        if (commands == null) return;
-        for (String command : commands) {
-            String type = command.split(":")[0];
-            if (!type.equals(commandType.getType())) continue;
-            if (command.equalsIgnoreCase("none")) continue;
-            command = command.split(":")[1]
-                    .replace("<world>", this.bound.getLevel().getName())
-                    .replace("<arena>", this.getName());
-            if (player != null) {
-                command = command.replace("<player>", player.getName());
-            }
-            if (commandType == CommandType.START && command.contains("<player>")) {
-                for (Player p : players) {
-                    String newCommand = command.replace("<player>", p.getName());
-                    HG.getInstance().getServer().dispatchCommand(HG.getInstance().getServer().getConsoleSender(), newCommand);
-                }
-            } else
-                HG.getInstance().getServer().dispatchCommand(HG.getInstance().getServer().getConsoleSender(), command);
-        }
-    }
-
-    /**
-     * Command types
-     */
-    public enum CommandType {
-        /**
-         * A command to run when a player dies in game
-         */
-        DEATH("death"),
-        /**
-         * A command to run at the start of a game
-         */
-        START("start"),
-        /**
-         * A command to run at the end of a game
-         */
-        STOP("stop"),
-        /**
-         * A command to run when a player joins a game
-         */
-        JOIN("join");
-
-        String type;
-
-        CommandType(String type) {
-            this.type = type;
-        }
-
-        public String getType() {
-            return type;
-        }
     }
 
 }

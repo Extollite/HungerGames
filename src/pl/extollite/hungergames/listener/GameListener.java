@@ -22,6 +22,7 @@ import cn.nukkit.level.Location;
 import cn.nukkit.level.Sound;
 import cn.nukkit.player.Player;
 import cn.nukkit.utils.Identifier;
+import cn.nukkit.utils.TextFormat;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.HGUtils.HGUtils;
 import pl.extollite.hungergames.data.ConfigData;
@@ -148,14 +149,11 @@ public class GameListener implements Listener {
             leaderboard.addStat(player, Leaderboard.Stats.GAMES);
 
             for (Player p : game.getPlayers()) {
-                p.getLevel().addSound(p.getPosition(), Sound.RANDOM_TOAST, 5, 1, game.getPlayers());
+                p.getLevel().addSound(p.getPosition(), Sound.RANDOM_TOAST, 5, 0.1F, game.getPlayers());
             }
 
             game.leave(player, true);
-            game.runCommands(Game.CommandType.DEATH, player);
-
         }, 1);
-
     }
 
     @EventHandler

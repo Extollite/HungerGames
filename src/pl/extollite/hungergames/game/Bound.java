@@ -53,7 +53,7 @@ public class Bound {
      * @param location2 Location 2
      */
     public Bound(Location location, Location location2) {
-        this(Objects.requireNonNull(location.getLevel()).getName(), ((int) location.getX()), ((int) location.getY()),
+        this(Objects.requireNonNull(location.getLevel()).getId(), ((int) location.getX()), ((int) location.getY()),
                 ((int) location.getZ()), ((int) location2.getX()), ((int) location2.getY()), ((int) location2.getZ()));
     }
 

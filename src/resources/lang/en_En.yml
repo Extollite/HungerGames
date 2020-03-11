@@ -51,12 +51,43 @@ cmd-create-created: '&aYou created HungerGames arena &b%arena%&a!'
 cmd-spawn-same: '&cYou cannot have two spawns in the same location!'
 cmd-spawn-set: 'You set HungerGames spawn #%number%!'
 
+## Join
+cmd-join-in-game: '&cYou are already in a game!'
+
+## Leave
+cmd-leave-left: '&6You left &b&l%arena%&c!'
+cmd-leave-not-in-game: '&cYou are not in any game!'
+
+## Start
+cmd-start-starting: '&b%arena%&6 is now starting!'
+
+cmd-stop-all: '&aStopped all games'
+cmd-stop-arena: '&b%arena%&c Has been stopped!'
+cmd-stop-noexist: '&cThe game &b%arena%&c does not exist!'
+
+## Toggle
+cmd-toggle-unlocked: '&b%arena%&6 is now &aUNLOCKED!'
+cmd-toggle-locked: '&3%arena%&b is now &4LOCKED&b!'
+
+## Chest Refill
+cmd-chestrefill-set: '&6Chest refill for &b%arena% &6has been set to &b<sec> seconds'
+cmd-chestrefill-now: '&6Chests have now been refilled in &b%arena%'
+
+## Reload
+cmd-reload-attempt: '&a&lAttempting to reload HungerGames!'
+cmd-reload-reloaded-arena: '&6 - &eArenas have been reloaded!'
+cmd-reload-reloaded-kit: '&6 - &eKits have been reloaded!'
+cmd-reload-reloaded-items: '&6 - &eRandomItems have been reloaded!'
+cmd-reload-reloaded-config: '&6 - &eConfig values have been reloaded!'
+cmd-reload-reloaded-success: '&l&a- Successfully reloaded HungerGames'
+
+
 
 ## Delete
-cmd-delete-attempt: '&aAttempting to delete <arena>!'
+cmd-delete-attempt: '&aAttempting to delete %arena%!'
 cmd-delete-stopping: '&7- &cGame running! &aStopping..'
 cmd-delete-kicking: '&7- &c&cPlayers detected! &aKicking..'
-cmd-delete-deleted: '&aSuccessfully deleted HungerGames arena &b<arena>!'
+cmd-delete-deleted: '&aSuccessfully deleted HungerGames arena &b%arena%!'
 cmd-delete-failed: '&cFailed to delete arena!'
 cmd-delete-noexist: '&cThis arena does not exist!'
 
@@ -64,7 +95,7 @@ cmd-delete-noexist: '&cThis arena does not exist!'
 ## LobbyWall
 cmd-sign-set: '&aThe lobby sign has been set!'
 lobby-sign:
-  line-1: '&1&lHunger Games'
+  line-1: '&1&lHungerGames'
   line-2: '%status%'
   line-3: '%players_count%'
   line-4-join: '&0&lJoin %game_name%'

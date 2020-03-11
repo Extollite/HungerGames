@@ -114,7 +114,7 @@ public class ConfigData {
         spectateChat = config.getBoolean("spectate.chat");
 
         if(config.getBoolean("settings.globalexit.enable")){
-            globalExit = Location.from((float)config.getDouble("settings.globalexit.x"), (float)config.getDouble("settings.globalexit.y"), (float)config.getDouble("settings.globalexit.z"), HG.getInstance().getServer().getLevelByName(config.getString("settings.globalexit.level")));
+            globalExit = Location.from((float)config.getDouble("settings.globalexit.x"), (float)config.getDouble("settings.globalexit.y"), (float)config.getDouble("settings.globalexit.z"), HG.getInstance().getServer().getLevel(config.getString("settings.globalexit.level")));
         }
         else
             globalExit = null;
