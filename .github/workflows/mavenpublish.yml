@@ -24,5 +24,5 @@ jobs:
         uses: actions/upload-artifact@v1.0.0
         with:
           name: dist
-          path: "1.0.0/HungerGames-1.0.0.jar"
+          path: "target/HungerGames-1.0.0.jar"
 
