@@ -35,17 +35,21 @@ public class SetSignCommand extends CommandManager {
     }
 
     public boolean execute(CommandSender sender, String label, String[] args) {
+        if(args.length < 1)
+            return false;
         if(sender instanceof Player){
             Player p = (Player)sender;
             Game g = Manager.getGame(args[0]);
-            if(g == null)
+            if(g == null){
+                HGUtils.sendMessage(p, HG.getInstance().getLanguage().getCmd_delete_noexist());
                 return false;
+            }
             Block b = p.getTargetBlock(6);
             if(!(b instanceof BlockSignPost))
                 return false;
             g.setLobbyBlock((Sign)p.getLevel().getBlockEntity(b.getPosition()));
             Config arenas = new Config(HG.getInstance().getDataFolder()+"/arenas.yml", Config.YAML);
-            arenas.set("arenas."+g.getName()+".lobbysign.level", b.getLevel().getName());
+            arenas.set("arenas."+g.getName()+".lobbysign.level", b.getLevel().getId());
             arenas.set("arenas."+g.getName()+".lobbysign.x", b.getX());
             arenas.set("arenas."+g.getName()+".lobbysign.y", b.getY());
             arenas.set("arenas."+g.getName()+".lobbysign.z", b.getZ());

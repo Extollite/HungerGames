@@ -65,7 +65,26 @@ public class Language {
     private String cmd_delete_deleted;
     private String cmd_delete_failed;
     private String cmd_delete_noexist;
-    
+
+    private String cmd_join_in_game;
+
+    private String cmd_leave_left;
+    private String cmd_leave_not_in_game;
+
+    private String cmd_reload_attempt;
+    private String cmd_reload_reloaded_arena;
+    private String cmd_reload_reloaded_kit;
+    private String cmd_reload_reloaded_items;
+    private String cmd_reload_reloaded_config;
+    private String cmd_reload_reloaded_success;
+
+    private String cmd_toggle_locked;
+    private String cmd_toggle_unlocked;
+
+    private String cmd_start_starting;
+    private String cmd_stop_all;
+    private String cmd_stop_arena;
+    private String cmd_stop_noexist;
     
     // Status Translations
     private String status_running;
@@ -184,6 +203,26 @@ public class Language {
         cmd_delete_failed = langFile.getString("cmd-delete-failed");
         cmd_delete_noexist = langFile.getString("cmd-delete-noexist");
 
+        cmd_join_in_game = langFile.getString("cmd-join-in-game");
+
+        cmd_leave_left = langFile.getString("cmd-leave-left");
+        cmd_leave_not_in_game = langFile.getString("cmd-leave-not-in-game");
+
+        cmd_reload_attempt = langFile.getString("cmd-reload-attempt");
+        cmd_reload_reloaded_arena = langFile.getString("cmd-reload-reloaded-arena");
+        cmd_reload_reloaded_config = langFile.getString("cmd-reload-reloaded-config");
+        cmd_reload_reloaded_items = langFile.getString("cmd-reload-reloaded-items");
+        cmd_reload_reloaded_kit = langFile.getString("cmd-reload-reloaded-kit");
+        cmd_reload_reloaded_success = langFile.getString("cmd-reload-reloaded-success");
+
+        cmd_start_starting = langFile.getString("cmd-start-starting");
+        cmd_stop_all = langFile.getString("cmd-stop-all");
+        cmd_stop_arena = langFile.getString("cmd-stop-arena");
+        cmd_stop_noexist = langFile.getString("cmd-stop-noexist");
+
+        cmd_toggle_unlocked = langFile.getString("cmd-toggle-unlocked");
+        cmd_toggle_locked = langFile.getString("cmd-toggle-locked");
+        
         status_running = langFile.getString("status-running");
         status_stopped = langFile.getString("status-stopped");
         status_ready = langFile.getString("status-ready");

@@ -34,11 +34,15 @@ public class DeleteCommand extends CommandManager {
     }
 
     public boolean execute(CommandSender sender, String label, String[] args) {
+        if(args.length < 1)
+            return false;
         if(sender instanceof Player){
             Player p = (Player)sender;
             Game g = Manager.getGame(args[0]);
-            if(g == null)
+            if(g == null){
+                HGUtils.sendMessage(p, HG.getInstance().getLanguage().getCmd_delete_noexist());
                 return false;
+            }
             try{
                 HGUtils.sendMessage(p, HG.getInstance().getLanguage().getCmd_delete_attempt().replace("%arena%", g.getName()));
                 if (g.getStatus() == Status.BEGINNING || g.getStatus() == Status.FINAL || g.getStatus() == Status.FINAL_COUNTDOWN || g.getStatus() == Status.RUNNING) {

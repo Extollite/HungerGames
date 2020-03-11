@@ -36,8 +36,10 @@ public class AddSpawnCommand extends CommandManager {
             Player p = (Player)sender;
             Game g = Manager.getGame(p.getLocation());
             Location loc = p.getLocation();
-            if(g == null)
+            if(g == null){
+                HGUtils.sendMessage(p, HG.getInstance().getLanguage().getCmd_delete_noexist());
                 return false;
+            }
             Config arenas = new Config(HG.getInstance().getDataFolder()+"/arenas.yml", Config.YAML);
             for(Location spawn : g.getSpawns()){
                 if(spawn.getBlock().getPosition().equals(loc.getBlock().getPosition())){
@@ -46,7 +48,7 @@ public class AddSpawnCommand extends CommandManager {
                 }
             }
             g.addSpawn(loc);
-            arenas.set("arenas."+g.getName()+".spawns."+g.getSpawns().size()+"s.level", loc.getLevel().getName());
+            arenas.set("arenas."+g.getName()+".spawns."+g.getSpawns().size()+"s.level", loc.getLevel().getId());
             arenas.set("arenas."+g.getName()+".spawns."+g.getSpawns().size()+"s.x", loc.getFloorX());
             arenas.set("arenas."+g.getName()+".spawns."+g.getSpawns().size()+"s.y", loc.getFloorY());
             arenas.set("arenas."+g.getName()+".spawns."+g.getSpawns().size()+"s.z", loc.getFloorZ());

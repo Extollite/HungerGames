@@ -26,34 +26,6 @@ public class HGACommand extends CommandManager {
         this.commands = new HashMap<>();
     }
 
-    /*@Override
-    public CommandDataVersions generateCustomCommandData(Player player) {
-        if (!this.testPermission(player)) {
-            return null;
-        }
-
-        CommandData customData = this.commandData.clone();
-
-        List<String> aliases = new ArrayList<>();
-        aliases.add("hga");
-        aliases.add("hungergamesadmin");
-
-        customData.aliases = new CommandEnum("HungerGamesAdminAliases", aliases);
-
-        customData.description = player.getServer().getLanguage().translateString(this.getDescription());
-        this.commandParameters.forEach((key, par) -> {
-            if (this.commands.get(key).testPermissionSilent(player)) {
-                CommandOverload overload = new CommandOverload();
-                overload.input.parameters = par;
-                customData.overloads.put(key, overload);
-            }
-        });
-        if (customData.overloads.size() == 0) customData.overloads.put("default", new CommandOverload());
-        CommandDataVersions versions = new CommandDataVersions();
-        versions.versions.add(customData);
-        return versions;
-    }*/
-
     @Override
     public boolean execute(CommandSender sender, String s, String[] args) {
         if (!this.testPermissionSilent(sender)) {

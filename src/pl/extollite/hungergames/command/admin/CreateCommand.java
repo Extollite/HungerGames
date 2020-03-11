@@ -37,6 +37,8 @@ public class CreateCommand extends CommandManager {
     }
 
     public boolean execute(CommandSender sender, String label, String[] args) {
+        if(args.length < 4)
+            return false;
         if(sender instanceof Player){
             Player p = (Player)sender;
             if(!HG.getInstance().getWandLocationsMap().containsKey(p.getServerId())){
@@ -71,7 +73,7 @@ public class CreateCommand extends CommandManager {
             Config arenas = new Config(HG.getInstance().getDataFolder()+"/arenas.yml", Config.YAML);
             Location loc1 = wandLocations.getLoc1();
             Location loc2 = wandLocations.getLoc2();
-            arenas.set("arenas." + args[0] +".bound.world", loc1.getLevel().getName());
+            arenas.set("arenas." + args[0] +".bound.level", loc1.getLevel().getId());
             arenas.set("arenas." + args[0] +".bound.x", loc1.getFloorX());
             arenas.set("arenas." + args[0] +".bound.y", loc1.getFloorY());
             arenas.set("arenas." + args[0] +".bound.z", loc1.getFloorZ());

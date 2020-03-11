@@ -16,8 +16,7 @@ public class ArenaData {
     public static void load(){
         Config arenas = new Config(HG.getInstance().getDataFolder()+"/arenas.yml", Config.YAML);
         if(arenas.exists("arenas")){
-            //new CompassTask();
-            for(String arena : arenas.getKeys(false)){
+            for(String arena : arenas.getSection("arenas").getKeys(false)){
                 boolean isReady = true;
                 List<Location> spawns = new ArrayList<>();
                 Sign lobbysign;
@@ -25,20 +24,20 @@ public class ArenaData {
                 int minplayers;
                 int maxplayers;
                 Bound b;
-                List<String> commands;
                 timer = arenas.getInt("arenas." + arena + ".info.timer");
                 minplayers = arenas.getInt("arenas." + arena + ".info.min-players");
                 maxplayers = arenas.getInt("arenas." + arena + ".info.max-players");
-                Level lobby = HG.getInstance().getServer().getLevelByName(arenas.getString("arenas."+arena+".lobbysign.level"));
+                Level lobby = HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".lobbysign.level"));
                 lobbysign = (Sign)lobby.getBlockEntity(Vector3i.from(arenas.getInt("arenas."+arena+".lobbysign.x"), arenas.getInt("arenas."+arena+".lobbysign.y"), arenas.getInt("arenas."+arena+".lobbysign.z")));
                 for(String spawn : arenas.getSection("arenas."+arena+".spawns").getKeys(false)){
-                    Level gameLevel = HG.getInstance().getServer().getLevelByName(arenas.getString("arenas."+arena+".spawns."+spawn+".level"));
-                    gameLevel.setAutoSave(false);
+                    Level gameLevel = HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".spawns."+spawn+".level"));
                     spawns.add(Location.from(arenas.getInt("arenas."+arena+".spawns."+spawn+".x"), arenas.getInt("arenas."+arena+".spawns."+spawn+".y"), arenas.getInt("arenas."+arena+".spawns."+spawn+".z"), gameLevel));
                 }
+                HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".bound.level")).setAutoSave(false);
+                HG.getInstance().getServer().loadLevel().id(arenas.getString("arenas."+arena+".bound.level"));
                 b = new Bound(
-                        Location.from(arenas.getInt("arenas."+arena+".b1.x"), arenas.getInt("arenas."+arena+".b1.y"), arenas.getInt("arenas."+arena+".b1.z"), HG.getInstance().getServer().getLevelByName(arenas.getString("arenas."+arena+".b1.level"))),
-                        Location.from(arenas.getInt("arenas."+arena+".b2.x"), arenas.getInt("arenas."+arena+".b2.y"), arenas.getInt("arenas."+arena+".b2.z"), HG.getInstance().getServer().getLevelByName(arenas.getString("arenas."+arena+".b2.level")))
+                        Location.from(arenas.getInt("arenas."+arena+".bound.x"), arenas.getInt("arenas."+arena+".bound.y"), arenas.getInt("arenas."+arena+".bound.z"), HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".bound.level"))),
+                        Location.from(arenas.getInt("arenas."+arena+".bound.x2"), arenas.getInt("arenas."+arena+".bound.y2"), arenas.getInt("arenas."+arena+".bound.z2"), HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".bound.level")))
                         );
                 Game game = new Game(arena, b, spawns, lobbysign, timer, minplayers, maxplayers, ConfigData.freeRoam, true);
                 HG.getInstance().getGames().add(game);
@@ -66,14 +65,6 @@ public class ArenaData {
                     game.setFinalCountdownStart(finalCountdownStart);
                     game.setFinalCountdownEnd(finalCountdownEnd);
                 }
-
-                if (arenas.isList("arenas." + arena + ".commands")) {
-                    commands = arenas.getStringList("arenas." + arena + ".commands");
-                } else {
-                    arenas.set("arenas." + arena + ".commands", Collections.singletonList("none"));
-                    commands = Collections.singletonList("none");
-                }
-                game.setCommands(commands);
 
                 if (arenas.exists("arenas." + arena + ".chest-refill")) {
                     int chestRefill = arenas.getInt("arenas." + arena + ".chest-refill");

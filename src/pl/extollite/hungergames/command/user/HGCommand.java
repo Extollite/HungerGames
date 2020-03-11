@@ -28,64 +28,6 @@ public class HGCommand extends CommandManager {
         this.commands = new HashMap<>();
     }
 
-/*    @Override
-    public com.nukkitx.protocol.bedrock.data.CommandData generateCustomCommandData(Player player) {
-        if (!this.testPermission(player)) {
-            return null;
-        } else {
-            String[] aliasesEnum;
-            if (this.getAliases().length > 0) {
-                Set<String> aliasList = new HashSet();
-                Collections.addAll(aliasList, this.getAliases());
-                aliasList.add(this.getName().toLowerCase());
-                aliasList.add("hungergames");
-                aliasesEnum = aliasList.toArray(new String[0]);
-            } else {
-                aliasesEnum = new String[]{this.getName().toLowerCase()};
-            }
-
-            CommandEnumData aliases = new CommandEnumData(this.getName().toLowerCase() + "Aliases", aliasesEnum, false);
-            String description = this.getDescription();
-            CommandParamData[][] overloads = new CommandParamData[this.commandParameters.size()][];
-
-            for(int i = 0; i < overloads.length; ++i) {
-                CommandParameter[] parameters = (CommandParameter[])this.commandParameters.get(i);
-                CommandParamData[] params = new CommandParamData[parameters.length];
-
-                for(int i2 = 0; i2 < parameters.length; ++i2) {
-                    params[i2] = Command.toNetwork(parameters[i2]);
-                }
-
-                overloads[i] = params;
-            }
-
-            return new com.nukkitx.protocol.bedrock.data.CommandData(this.name.toLowerCase(), description, Collections.emptyList(), (byte)0, aliases, overloads);
-        }
-
-        if (!this.testPermission(player)) {
-            return null;
-        }
-
-        CommandData customData = this.commandData.clone();
-
-        List<String> aliases = new ArrayList<>();
-        aliases.add("hg");
-        aliases.add("hungergames");
-
-        customData.aliases = new CommandEnum("HungerGamesAliases", aliases);
-
-        customData.description = player.getServer().getLanguage().translateString(this.getDescription());
-        this.commandParameters.forEach((par) -> {
-            if (par.length > 0 && this.commands.get(par[0].name).testPermissionSilent(player)) {
-                CommandOverload overload = new CommandOverload();
-                overload.input.parameters = par;
-                customData.overloads.put(par[0].name, overload);
-            }
-        });
-        if (customData.overloads.size() == 0) customData.overloads.put("default", new CommandOverload());
-        return new com.nukkitx.protocol.bedrock.data.CommandData(this.getName().toLowerCase(), description, Collections.emptyList(), (byte)0, aliases, this.getOverloads());
-    }*/
-
     @Override
     public boolean execute(CommandSender sender, String s, String[] args) {
         if (!this.testPermissionSilent(sender)) {

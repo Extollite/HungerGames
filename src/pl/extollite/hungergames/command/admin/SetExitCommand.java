@@ -33,7 +33,7 @@ public class SetExitCommand extends CommandManager {
             Location loc = p.getLocation();
             Config config = HG.getInstance().getConfig();
             config.set("settings.globalexit.enable", true);
-            config.set("settings.globalexit.level", loc.getLevel().getName());
+            config.set("settings.globalexit.level", loc.getLevel().getId());
             config.set("settings.globalexit.x", loc.getX());
             config.set("settings.globalexit.y", loc.getY());
             config.save();
