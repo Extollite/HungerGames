@@ -67,7 +67,7 @@ public class Bound {
 	 * @return True if location is within this bound
 	 */
 	public boolean isInRegion(Location loc) {
-		if (!Objects.requireNonNull(loc.getLevel()).getName().equals(level)) return false;
+		if (!Objects.requireNonNull(loc.getLevel()).getId().equals(level)) return false;
 		int cx = loc.getBlock().getX();
 		int cy = loc.getBlock().getY();
 		int cz = loc.getBlock().getZ();

@@ -18,7 +18,7 @@ public class HGUtils {
     }
 
     public static void sendTitle(Player player, String message){
-        player.sendTitle(TextFormat.colorize('&', message));
+        player.sendTitle(TextFormat.colorize('&', message), "", 5, 10, 5);
     }
 
     public static String colorize(String message){

@@ -57,7 +57,7 @@ public class DeleteCommand extends CommandManager {
                     }
                 }
                 Config arenas = new Config(HG.getInstance().getDataFolder()+"/arenas.yml", Config.YAML);
-                arenas.set("arenas"+g.getName(), null);
+                arenas.set("arenas."+g.getName(), null);
                 arenas.save();
                 HGUtils.sendMessage(p, HG.getInstance().getLanguage().getCmd_delete_deleted().replace("%arena%", g.getName()));
                 HG.getInstance().getGames().remove(g);

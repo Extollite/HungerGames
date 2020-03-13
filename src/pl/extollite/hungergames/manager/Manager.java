@@ -65,7 +65,8 @@ public class Manager {
 			Item it = randomItem(game, bonus);
 			int slot = slots.get(0);
 			slots.remove(0);
-			i.setItem(slot, it);
+			if(it != null)
+				i.setItem(slot, it);
 			c--;
 		}
 	}

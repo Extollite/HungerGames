@@ -30,7 +30,7 @@ public class TimerTask implements Runnable {
 	
 	@Override
 	public void run() {
-		if (game == null || game.getStatus() != Status.RUNNING || game.getStatus() != Status.FINAL) stop(); //A quick null check!
+		if (game == null || ( game.getStatus() != Status.FINAL_COUNTDOWN && game.getStatus() != Status.RUNNING && game.getStatus() != Status.FINAL )) stop(); //A quick null check!
 
 		if (ConfigData.finalEnabled && remainingtime == finalCountdownStart) {
 			game.setFinalize(new FinalTask(game));
@@ -54,8 +54,8 @@ public class TimerTask implements Runnable {
 				if (asd == 0)
 					game.tipAll(HG.getInstance().getLanguage().getGame_ending_min().replace("%minutes%", String.valueOf(minutes)));
 				else
-					game.tipAll(HG.getInstance().getLanguage().getGame_ending_min().replace("%minutes%", String.valueOf(minutes)).replace("%seconds%", String.valueOf(asd)));
-			} else game.tipAll(HG.getInstance().getLanguage().getGame_ending_min().replace("%seconds%", String.valueOf(this.remainingtime)));
+					game.tipAll(HG.getInstance().getLanguage().getGame_ending_minsec().replace("%minutes%", String.valueOf(minutes)).replace("%seconds%", String.valueOf(asd)));
+			} else game.tipAll(HG.getInstance().getLanguage().getGame_ending_sec().replace("%seconds%", String.valueOf(this.remainingtime)));
 		}
 		remainingtime = (remainingtime - 30);
 	}

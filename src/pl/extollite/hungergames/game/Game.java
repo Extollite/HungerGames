@@ -5,10 +5,13 @@ import cn.nukkit.blockentity.BlockEntity;
 import cn.nukkit.blockentity.Sign;
 import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.item.Item;
+import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.level.Sound;
 import cn.nukkit.math.BlockFace;
 import cn.nukkit.player.Player;
+import cn.nukkit.registry.GeneratorRegistry;
+import cn.nukkit.utils.Identifier;
 import jdk.internal.jline.internal.Nullable;
 import lombok.Getter;
 import lombok.Setter;
@@ -322,13 +325,15 @@ public class Game {
             players.add(player);
             HG.getInstance().getServer().getScheduler().scheduleDelayedTask(HG.getInstance(), () -> {
                 Location loc = pickSpawn();
-                player.teleport(loc);
 
                 if (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR)) {
-                    while (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR)) {
-                        loc.add(0, -1, 0);
+                    while (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR) && loc.getY() > 0) {
+                        loc = loc.add(0, -1, 0);
                     }
                 }
+
+                player.teleport(loc);
+
                 playerManager.addPlayerData(new PlayerData(player, this));
 
                 heal(player);
@@ -518,6 +523,11 @@ public class Game {
         for (Player p : this.getPlayers()) {
             playersInGame.add(p);
             Location loc = pickSpawn();
+            if (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR)) {
+                while (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR) && loc.getY() > 0) {
+                    loc = loc.add(0, -1, 0);
+                }
+            }
             p.teleport(loc);
             freeze(p);
         }
@@ -528,7 +538,8 @@ public class Game {
     }
 
     public void forceRollback(){
-        HG.getInstance().getServer().unloadLevel(bound.getLevel());
+        HG.getInstance().getServer().unloadLevel(bound.getLevel(), true);
+
         HG.getInstance().getServer().loadLevel().id(bound.getLevel().getId()).load();
     }
 
@@ -592,8 +603,17 @@ public class Game {
         // prevent not death winners from gaining a prize
         if (death)
             HGUtils.broadcast(getLang().getPlayer_won().replace("%arena%", name).replace("%winner%", winner));
-        HG.getInstance().getServer().unloadLevel(bound.getLevel());
-        HG.getInstance().getServer().loadLevel().id(bound.getLevel().getId()).load();
+
+        Level levelToUnload = bound.getLevel();
+        GeneratorRegistry generatorRegistry = GeneratorRegistry.get();
+        Identifier generator = Identifier.fromString(HG.getInstance().getServer().getConfig("worlds." + levelToUnload.getId() + ".generator"));
+        String options = HG.getInstance().getServer().getConfig("worlds." + levelToUnload.getId() + ".options", "");
+
+        HG.getInstance().getServer().getLevelManager().deregister(levelToUnload);
+        HG.getInstance().getServer().unloadLevel(levelToUnload, true);
+        HG.getInstance().getServer().loadLevel().id(levelToUnload.getId()).seed(levelToUnload.getSeed())
+                .generator(generator == null ? generatorRegistry.getFallback() : generator)
+                .generatorOptions(options).load().join();
         status = Status.READY;
         updateLobbyBlock();
 

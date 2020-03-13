@@ -42,8 +42,8 @@ rollback:
 
 final:
   enabled: false
-  countdown-start: 70
-  countdown-end: 65
+  countdown-start: 60
+  countdown-end: 50
   countdown-freeze: 5
   center-on-first-spawn: true
   radius: 30

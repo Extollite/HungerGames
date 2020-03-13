@@ -23,6 +23,8 @@ import cn.nukkit.level.Sound;
 import cn.nukkit.player.Player;
 import cn.nukkit.utils.Identifier;
 import cn.nukkit.utils.TextFormat;
+import com.nukkitx.math.vector.Vector2f;
+import com.nukkitx.math.vector.Vector2i;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.HGUtils.HGUtils;
 import pl.extollite.hungergames.data.ConfigData;
@@ -486,7 +488,9 @@ public class GameListener implements Listener {
         if(pd.getGame().getStatus() != Status.FINAL)
             return;
         if(!event.getFrom().getBlock().getPosition().equals(event.getTo().getBlock().getPosition())){
-            if(event.getTo().getPosition().distanceSquared(pd.getGame().getSpawns().get(0).getPosition()) > (ConfigData.finalRadius*ConfigData.finalRadius)){
+            Vector2f from = pd.getGame().getSpawns().get(0).getPosition().toVector2(true);
+            Vector2f to = event.getTo().getPosition().toVector2(true);
+            if(from.distanceSquared(to) > (ConfigData.finalRadius*ConfigData.finalRadius)){
                 player.teleportImmediate(event.getTo());
                 event.setCancelled();
             }
