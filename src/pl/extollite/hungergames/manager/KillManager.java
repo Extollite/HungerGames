@@ -35,7 +35,7 @@ public class KillManager {
                         break;
                     } else if (e instanceof EntityLiving) {
                         message = "death.attack.mob";
-                        params.add(!Objects.equals(e.getCustomName(), "") ? e.getCustomName() : e.getName());
+                        params.add(e.getName());
                         break;
                     } else {
                         params.add("Unknown");
@@ -51,7 +51,7 @@ public class KillManager {
                         params.add(((Player) e).getDisplayName());
                     } else if (e instanceof EntityLiving) {
                         message = "death.attack.arrow";
-                        params.add(!Objects.equals(e.getCustomName(), "") ? e.getCustomName() : e.getName());
+                        params.add(e.getName());
                         break;
                     } else {
                         params.add("Unknown");
@@ -117,7 +117,7 @@ public class KillManager {
                         params.add(((Player) e).getDisplayName());
                     } else if (e instanceof EntityLiving) {
                         message = "death.attack.explosion.player";
-                        params.add(!Objects.equals(e.getCustomName(), "") ? e.getCustomName() : e.getName());
+                        params.add(e.getName());
                         break;
                     }
                 } else {

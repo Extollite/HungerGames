@@ -151,7 +151,7 @@ public class GameListener implements Listener {
             leaderboard.addStat(player, Leaderboard.Stats.GAMES);
 
             for (Player p : game.getPlayers()) {
-                p.getLevel().addSound(p.getPosition(), Sound.RANDOM_TOAST, 5, 0.1F, game.getPlayers());
+                p.getLevel().addSound(p.getPosition(), Sound.RANDOM_TOAST, 0.5F, 0.1F, game.getPlayers());
             }
 
             game.leave(player, true);
@@ -492,6 +492,7 @@ public class GameListener implements Listener {
             Vector2f to = event.getTo().getPosition().toVector2(true);
             if(from.distanceSquared(to) > (ConfigData.finalRadius*ConfigData.finalRadius)){
                 player.teleportImmediate(event.getTo());
+                player.sendTip(HGUtils.colorize(HG.getInstance().getLanguage().getGame_final_border()));
                 event.setCancelled();
             }
         }

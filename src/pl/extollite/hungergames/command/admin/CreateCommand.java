@@ -83,7 +83,6 @@ public class CreateCommand extends CommandManager {
             arenas.set("arenas." + args[0] +".info.timer", time);
             arenas.set("arenas." + args[0] +".info.min-players", min);
             arenas.set("arenas." + args[0] +".info.max-players", max);
-            arenas.set("arenas." + args[0] + ".commands", Collections.singletonList("none"));
             arenas.save();
             Bound b = new Bound(loc1, loc2);
             HG.getInstance().getGames().add(new Game(args[0], b, time, min, max, ConfigData.freeRoam));

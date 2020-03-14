@@ -34,7 +34,6 @@ public class ArenaData {
                     spawns.add(Location.from(arenas.getInt("arenas."+arena+".spawns."+spawn+".x"), arenas.getInt("arenas."+arena+".spawns."+spawn+".y"), arenas.getInt("arenas."+arena+".spawns."+spawn+".z"), gameLevel));
                 }
                 HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".bound.level")).setAutoSave(false);
-                HG.getInstance().getServer().loadLevel().id(arenas.getString("arenas."+arena+".bound.level"));
                 b = new Bound(
                         Location.from(arenas.getInt("arenas."+arena+".bound.x"), arenas.getInt("arenas."+arena+".bound.y"), arenas.getInt("arenas."+arena+".bound.z"), HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".bound.level"))),
                         Location.from(arenas.getInt("arenas."+arena+".bound.x2"), arenas.getInt("arenas."+arena+".bound.y2"), arenas.getInt("arenas."+arena+".bound.z2"), HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".bound.level")))

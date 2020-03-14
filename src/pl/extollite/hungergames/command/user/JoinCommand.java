@@ -38,7 +38,7 @@ public class JoinCommand extends CommandManager {
                 HGUtils.sendMessage(p, HG.getInstance().getLanguage().getCmd_join_in_game());
             } else {
                 Game g = Manager.getGame(args[0]);
-                if (g != null && !g.getPlayers().contains(p)) {
+                if (g != null && !g.getPlayers().contains(p) && !g.getSpectators().contains(p)) {
                     g.join(p);
                 } else {
                     HGUtils.sendMessage(p, HG.getInstance().getLanguage().getCmd_delete_noexist());

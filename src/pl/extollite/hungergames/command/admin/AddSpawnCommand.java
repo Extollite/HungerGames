@@ -1,9 +1,11 @@
 package pl.extollite.hungergames.command.admin;
 
+import cn.nukkit.block.BlockIds;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
 import cn.nukkit.level.Location;
+import cn.nukkit.math.BlockFace;
 import cn.nukkit.permission.Permission;
 import cn.nukkit.player.Player;
 import cn.nukkit.utils.Config;
@@ -45,6 +47,11 @@ public class AddSpawnCommand extends CommandManager {
                 if(spawn.getBlock().getPosition().equals(loc.getBlock().getPosition())){
                     HGUtils.sendMessage(p, HG.getInstance().getLanguage().getCmd_spawn_same());
                     return true;
+                }
+            }
+            if (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR)) {
+                while (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR) && loc.getY() > 0) {
+                    loc = loc.add(0, -1, 0);
                 }
             }
             g.addSpawn(loc);

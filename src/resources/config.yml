@@ -24,20 +24,15 @@ settings:
 #Rollback Settings
 rollback:
   allow-block-break: false
-  blocks-per-second: 500
   protect-during-cooldown: true
   fix-leaves: true
   prevent-trampling: true
   editable-blocks:
     - GRASS
-    - TALL_GRASS
-    - GRASS_BLOCK
     - DIRT
+    - TALLGRASS
     - COBBLESTONE
-    - OAK_PLANKS
     - SANDSTONE
-    - WHITE_WOOL
-    - STONE_BRICKS
     - GLASS_PANE
 
 final:

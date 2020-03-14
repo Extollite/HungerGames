@@ -20,7 +20,7 @@ public class FinalTask implements Runnable {
 
     public FinalTask(Game g) {
         this.timer = ConfigData.finalCountdownStart - ConfigData.finalCountdownEnd + ConfigData.finalFreeze;
-        this.teleportCountdownEnd = timer - ConfigData.finalFreeze;
+        this.teleportCountdownEnd = ConfigData.finalFreeze + 1;
         this.game = g;
 
         this.id = HG.getInstance().getServer().getScheduler().scheduleRepeatingTask(HG.getInstance(),this, 20).getTaskId();
@@ -29,14 +29,15 @@ public class FinalTask implements Runnable {
     @Override
     public void run() {
         if (timer > teleportCountdownEnd) {
-            game.msgAll(HG.getInstance().getLanguage().getGame_teleport().replace("%seconds%", String.valueOf(timer - ConfigData.finalFreeze)));
+            game.tipAll(HG.getInstance().getLanguage().getGame_teleport().replace("%seconds%", String.valueOf(timer - ConfigData.finalFreeze)));
         } else if(timer == teleportCountdownEnd){
+            game.tipAll(HG.getInstance().getLanguage().getGame_teleport().replace("%seconds%", String.valueOf(timer - ConfigData.finalFreeze)));
             game.startFinal();
         } else if (timer == 0){
+            game.titleAll("Fight!");
+            game.setStatus(Status.FINAL);
             for (Player p : game.getPlayers()) {
-                p.sendTitle("Fight!");
                 game.unFreeze(p);
-                game.setStatus(Status.FINAL);
             }
             stop();
         } else{

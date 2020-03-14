@@ -324,15 +324,7 @@ public class Game {
 
             players.add(player);
             HG.getInstance().getServer().getScheduler().scheduleDelayedTask(HG.getInstance(), () -> {
-                Location loc = pickSpawn();
-
-                if (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR)) {
-                    while (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR) && loc.getY() > 0) {
-                        loc = loc.add(0, -1, 0);
-                    }
-                }
-
-                player.teleport(loc);
+                player.teleport(pickSpawn());
 
                 playerManager.addPlayerData(new PlayerData(player, this));
 
@@ -522,13 +514,7 @@ public class Game {
         List<Player> playersInGame = new LinkedList<>();
         for (Player p : this.getPlayers()) {
             playersInGame.add(p);
-            Location loc = pickSpawn();
-            if (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR)) {
-                while (loc.getBlock().getSide(BlockFace.DOWN).getId().equals(BlockIds.AIR) && loc.getY() > 0) {
-                    loc = loc.add(0, -1, 0);
-                }
-            }
-            p.teleport(loc);
+            p.teleport(pickSpawn());
             freeze(p);
         }
         HG.getInstance().getServer().getPluginManager().callEvent(new GameFinalEvent(this, playersInGame));
@@ -538,9 +524,22 @@ public class Game {
     }
 
     public void forceRollback(){
-        HG.getInstance().getServer().unloadLevel(bound.getLevel(), true);
+        Level levelToUnload = bound.getLevel();
+        GeneratorRegistry generatorRegistry = GeneratorRegistry.get();
+        Identifier generator = Identifier.fromString(HG.getInstance().getServer().getConfig("worlds." + levelToUnload.getId() + ".generator"));
+        String options = HG.getInstance().getServer().getConfig("worlds." + levelToUnload.getId() + ".options", "");
 
-        HG.getInstance().getServer().loadLevel().id(bound.getLevel().getId()).load();
+        HG.getInstance().getServer().getLevelManager().deregister(levelToUnload);
+        HG.getInstance().getServer().unloadLevel(levelToUnload, true);
+        HG.getInstance().getServer().loadLevel().id(levelToUnload.getId()).seed(levelToUnload.getSeed())
+                .generator(generator == null ? generatorRegistry.getFallback() : generator)
+                .generatorOptions(options).load().join().setAutoSave(false);
+        Level newLevel = bound.getLevel();
+        List<Location> newSpawns = new LinkedList<>();
+        for(Location spawn : spawns){
+            newSpawns.add(Location.from(spawn.getPosition(), newLevel));
+        }
+        spawns = newSpawns;
     }
 
 
@@ -599,6 +598,7 @@ public class Game {
             }
         }
         chests.clear();
+        playerChests.clear();
         String winner = String.join(", ",HGUtils.convertUUIDListToStringList(win));
         // prevent not death winners from gaining a prize
         if (death)
@@ -613,8 +613,14 @@ public class Game {
         HG.getInstance().getServer().unloadLevel(levelToUnload, true);
         HG.getInstance().getServer().loadLevel().id(levelToUnload.getId()).seed(levelToUnload.getSeed())
                 .generator(generator == null ? generatorRegistry.getFallback() : generator)
-                .generatorOptions(options).load().join();
+                .generatorOptions(options).load().join().setAutoSave(false);
         status = Status.READY;
+        Level newLevel = bound.getLevel();
+        List<Location> newSpawns = new LinkedList<>();
+        for(Location spawn : spawns){
+            newSpawns.add(Location.from(spawn.getPosition(), newLevel));
+        }
+        spawns = newSpawns;
         updateLobbyBlock();
 
         // Call GameEndEvent
@@ -642,7 +648,7 @@ public class Game {
             playerManager.getPlayerData(uuid).restore(player);
             playerManager.removePlayerData(player);
             exit(player);
-            player.getLevel().addSound(player.getPosition(), Sound.RANDOM_TOAST, 5, 1, player);
+            player.getLevel().addSound(player.getPosition(), Sound.RANDOM_TOAST, 0.5F, 0.1F, player);
             if (spectate && spectateOnDeath && !isGameOver()) {
                 spectate(player);
                 player.sendTitle(getName(), "You are now spectating!", 10, 100, 10); //TODO this a temp test

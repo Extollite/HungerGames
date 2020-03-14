@@ -35,6 +35,7 @@ public class Language {
     private String arena_spectate;
     private String game_full;
     private String player_won;
+    private String game_final_border;
 
 
     // Command Translations
@@ -85,7 +86,10 @@ public class Language {
     private String cmd_stop_all;
     private String cmd_stop_arena;
     private String cmd_stop_noexist;
-    
+
+    private String cmd_chest_refill;
+    private String cmd_chest_refill_now;
+
     // Status Translations
     private String status_running;
     private String status_stopped;
@@ -97,10 +101,6 @@ public class Language {
     private String status_beginning;
     private String status_countdown;
     private String status_final;
-
-
-    //Bossbar Translations
-    private String bossbar;
 
     //Lobby Sign Translations
     private String line_1;
@@ -118,7 +118,7 @@ public class Language {
     private String roam_game_started;
     private String roam_time;
     private String roam_finished;
-    
+
     //Death Translations
     private List<String> death_fell_accident_generic;
     private List<String> death_attack_inFire;
@@ -148,9 +148,9 @@ public class Language {
     private String listener_sign_click_hand;
 
     public Language() {
-        Config langFile = new Config(HG.getInstance().getDataFolder()+"/lang/"+ConfigData.lang+".yml", Config.YAML);
-        if(langFile.getAll().isEmpty()){
-            langFile.load(HG.getInstance().getResource("lang"+"/"+ConfigData.lang+".yml"));
+        Config langFile = new Config(HG.getInstance().getDataFolder() + "/lang/" + ConfigData.lang + ".yml", Config.YAML);
+        if (langFile.getAll().isEmpty()) {
+            langFile.load(HG.getInstance().getResource("lang" + "/" + ConfigData.lang + ".yml"));
             langFile.save();
         }
         prefix = langFile.getString("prefix");
@@ -165,17 +165,16 @@ public class Language {
         game_ending_sec = langFile.getString("game-ending-sec");
         game_teleport = langFile.getString("game-teleport");
         game_teleported = langFile.getString("game-teleported");
+        game_final_border = langFile.getString("game-final-border");
 
         game_chest_refill = langFile.getString("game-chests-refill");
-
-        bossbar = langFile.getString("game-bossbar");
 
         players_to_start = langFile.getString("players-to-start");
         arena_not_ready = langFile.getString("arena-not-ready");
         arena_spectate = langFile.getString("arena-spectate");
         game_full = langFile.getString("game-full");
         player_won = langFile.getString("player-won");
-        
+
         cmd_usage = langFile.getStringList("cmd-usage");
 
         cmd_no_permission = langFile.getString("cmd-no-permission");
@@ -187,7 +186,7 @@ public class Language {
 
         cmd_handler_nocmd = langFile.getString("cmd-handler-nocmd");
         cmd_handler_playing = langFile.getString("cmd-handler-playing");
-        
+
         cmd_create_need_selection = langFile.getString("cmd-create-need-selection");
         cmd_create_divisible_1 = langFile.getString("cmd-create-divisible-1");
         cmd_create_divisible_2 = langFile.getString("cmd-create-divisible-2");
@@ -222,7 +221,11 @@ public class Language {
 
         cmd_toggle_unlocked = langFile.getString("cmd-toggle-unlocked");
         cmd_toggle_locked = langFile.getString("cmd-toggle-locked");
-        
+
+        game_chest_refill = langFile.getString("game-chests-refill");
+        cmd_chest_refill = langFile.getString("cmd-chestrefill-set");
+        cmd_chest_refill_now = langFile.getString("cmd-chestrefill-now");
+
         status_running = langFile.getString("status-running");
         status_stopped = langFile.getString("status-stopped");
         status_ready = langFile.getString("status-ready");
@@ -248,36 +251,36 @@ public class Language {
         roam_time = langFile.getString("roam-time");
         roam_finished = langFile.getString("roam-finished");
 
-         death_fell_accident_generic = langFile.getStringList("death-fell-accident-generic");
-         death_attack_inFire = langFile.getStringList("death-attack-inFire");
-         death_attack_onFire = langFile.getStringList("death-attack-onFire");
-         death_attack_lava = langFile.getStringList("death-attack-lava");
-         death_attack_lava_magma = langFile.getStringList("death-attack-lava-magma");
-         death_attack_inWall = langFile.getStringList("death-attack-inWall");
-         death_attack_drown = langFile.getStringList("death-attack-drown");
-         death_attack_cactus = langFile.getStringList("death-attack-cactus");
-         death_attack_generic = langFile.getStringList("death-attack-generic");
-         death_attack_explosion = langFile.getStringList("death-attack-explosion");
-         death_attack_explosion_player = langFile.getStringList("death-attack-explosion-player");
-         death_attack_magic = langFile.getStringList("death-attack-magic");
-         death_attack_wither = langFile.getStringList("death-attack-wither");
-         death_attack_mob = langFile.getStringList("death-attack-mob");
-         death_attack_player = langFile.getStringList("death-attack-player");
-         death_attack_player_item = langFile.getStringList("death-attack-player-item");
-         death_attack_arrow = langFile.getStringList("death-attack-arrow");
-         death_attack_arrow_item = langFile.getStringList("death-attack-arrow-item");
-         death_attack_fall = langFile.getStringList("death-attack-fall");
-         death_attack_outOfWorld = langFile.getStringList("death-attack-outOfWorld");
-         death_attack_starve = langFile.getStringList("death-attack-starve");
+        death_fell_accident_generic = langFile.getStringList("death-fell-accident-generic");
+        death_attack_inFire = langFile.getStringList("death-attack-inFire");
+        death_attack_onFire = langFile.getStringList("death-attack-onFire");
+        death_attack_lava = langFile.getStringList("death-attack-lava");
+        death_attack_lava_magma = langFile.getStringList("death-attack-lava-magma");
+        death_attack_inWall = langFile.getStringList("death-attack-inWall");
+        death_attack_drown = langFile.getStringList("death-attack-drown");
+        death_attack_cactus = langFile.getStringList("death-attack-cactus");
+        death_attack_generic = langFile.getStringList("death-attack-generic");
+        death_attack_explosion = langFile.getStringList("death-attack-explosion");
+        death_attack_explosion_player = langFile.getStringList("death-attack-explosion-player");
+        death_attack_magic = langFile.getStringList("death-attack-magic");
+        death_attack_wither = langFile.getStringList("death-attack-wither");
+        death_attack_mob = langFile.getStringList("death-attack-mob");
+        death_attack_player = langFile.getStringList("death-attack-player");
+        death_attack_player_item = langFile.getStringList("death-attack-player-item");
+        death_attack_arrow = langFile.getStringList("death-attack-arrow");
+        death_attack_arrow_item = langFile.getStringList("death-attack-arrow-item");
+        death_attack_fall = langFile.getStringList("death-attack-fall");
+        death_attack_outOfWorld = langFile.getStringList("death-attack-outOfWorld");
+        death_attack_starve = langFile.getStringList("death-attack-starve");
 
         listener_not_running = langFile.getString("listener-not-running");
         listener_no_edit_block = langFile.getString("listener-no-edit-block");
         listener_no_interact = langFile.getString("listener-no-interact");
         listener_sign_click_hand = langFile.getString("listener-sign-click-hand");
     }
-    
-    public List<String> getDeathMessage(String name){
-        switch (name){
+
+    public List<String> getDeathMessage(String name) {
+        switch (name) {
             case "death.fell.accident.generic":
                 return death_fell_accident_generic;
             case "death.attack.inFire":

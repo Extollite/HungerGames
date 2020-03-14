@@ -3,6 +3,7 @@ package pl.extollite.hungergames.game;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
+import lombok.Setter;
 import lombok.ToString;
 import pl.extollite.hungergames.HG;
 
@@ -16,6 +17,7 @@ import java.util.Random;
  */
 
 @ToString
+@Setter
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Bound {
 
