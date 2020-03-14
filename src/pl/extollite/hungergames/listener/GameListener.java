@@ -206,13 +206,14 @@ public class GameListener implements Listener {
     @EventHandler
     private void onItemUseAttempt(PlayerInteractEvent event) {
         Player p = event.getPlayer();
+/*        HG.getInstance().getLogger().info(event.getItem().getName());
         if (playerManager.hasSpectatorData(p)) {
             event.setCancelled(true);
             if (isSpectatorCompass(event)) {
                 handleSpectatorCompass(p);
                 return;
             }
-        }
+        }*/
         if (event.getAction() != PlayerInteractEvent.Action.PHYSICAL && playerManager.hasPlayerData(p)) {
             Status st = playerManager.getPlayerData(p).getGame().getStatus();
             if (st == Status.WAITING || st == Status.COUNTDOWN || st == Status.FINAL_COUNTDOWN) {
@@ -222,7 +223,7 @@ public class GameListener implements Listener {
         }
     }
 
-    private boolean isSpectatorCompass(PlayerInteractEvent event) {
+/*    private boolean isSpectatorCompass(PlayerInteractEvent event) {
         PlayerInteractEvent.Action action = event.getAction();
         Player player = event.getPlayer();
         if (action != PlayerInteractEvent.Action.LEFT_CLICK_BLOCK && action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
@@ -230,10 +231,10 @@ public class GameListener implements Listener {
         if (!playerManager.hasSpectatorData(player)) return false;
 
         Item item = event.getItem();
-        if (item == null || item.getId().equals(ItemIds.COMPASS)) return false;
+        if (item == null || !item.getId().equals(ItemIds.COMPASS)) return false;
         return item.getCustomName() != null && item.getCustomName().equalsIgnoreCase(HGUtils.colorize(lang.getSpectator_compass()));
 
-    }
+    }*/
 
     private void handleSpectatorCompass(Player player) {
         Game game = playerManager.getSpectatorData(player).getGame();

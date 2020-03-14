@@ -16,7 +16,7 @@ public class SpectatorWindowListener implements Listener {
 
     @EventHandler
     public void onResponse(PlayerFormRespondedEvent ev){
-        if(ev.isCancelled() || ev.wasClosed())
+        if(ev.wasClosed())
             return;
         if(!(ev.getResponse() instanceof FormResponseSimple))
             return;

@@ -80,6 +80,7 @@ public class HG extends PluginBase {
             mainCommand.registerCommand(new ListCommand());
             mainCommand.registerCommand(new ListGamesCommand());
             mainCommand.registerCommand(new SpectateCommand());
+            mainCommand.registerCommand(new TpCommand());
             
             mainAdminCommand.registerCommand(new WandCommand());
             mainAdminCommand.registerCommand(new CreateCommand());
@@ -111,6 +112,9 @@ public class HG extends PluginBase {
             SpectateCommand spectateCommand = new SpectateCommand();
             mainCommand.registerCommand(spectateCommand);
             this.getServer().getCommandMap().register(this, spectateCommand);
+            TpCommand tpCommand = new TpCommand();
+            mainCommand.registerCommand(tpCommand);
+            this.getServer().getCommandMap().register(this, tpCommand);
             
             WandCommand wandCommand = new WandCommand();
             mainAdminCommand.registerCommand(wandCommand);

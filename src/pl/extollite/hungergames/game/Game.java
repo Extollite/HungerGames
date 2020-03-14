@@ -752,7 +752,7 @@ public class Game {
         this.spectators.add(spectator);
         spectator.setGamemode(Player.SPECTATOR);
         spectator.teleport(this.getSpawns().get(0));
-        spectator.getInventory().setItem(0, ItemManager.getSpectatorCompass());
+       // spectator.getInventory().setItem(0, ItemManager.getSpectatorCompass());
     }
 
     /**
