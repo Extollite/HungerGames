@@ -1,5 +1,5 @@
 #  GENERAL PLUGIN MESSAGES
-prefix: "§6[HG]§f"
+prefix: "§6[HG]§f "
 cmd-no-permission: "You don't have permission to use this command"
 
 #  GAME MESSAGES
@@ -9,7 +9,7 @@ player-left-game: '&b&l%player_name% &cHas left the game'
 
 #  %arena% will be replaced with name of arena the player won in
 #  %winner% will be replaced with name of winner
-player-won: ' &b&l%winner% &6won HungerGames at arena &b&l%arena%&7!'
+player-won: '&b&l%winner% &6won HungerGames at arena &b&l%arena%&7!'
 
 #  %arena% will be replaced with the name of the arena
 game-started: '&6&l Arena &c&l%arena% &6&lwill begin in 30 seconds!'
@@ -110,7 +110,7 @@ cmd-handler-playing: '&cThis player is currently playing &3HungerGames!'
 #  FREE ROAM
 roam-game-started: '&4[]-[ &6&lThe game has started! &4]-[]'
 #  %roam^ will be replaced with the time the players can roam for
-roam-time: ' &e You have %roam% seconds to roam without taking damage!'
+roam-time: '&e You have %roam% seconds to roam without taking damage!'
 roam-finished: '&c&lFree-Roam is over, PVP is now enabled!'
 
 #  LISTENER
@@ -134,7 +134,6 @@ status-final: '&b&lFinal'
 # SPECTATORS MESSAGES
 spectator-menu-title: "Teleport"
 spectator-menu-content: "Choose player to teleport to:"
-spectator-compass: '&3Spectator Compass'
 
 #Death messages
 death-fell-accident-generic:

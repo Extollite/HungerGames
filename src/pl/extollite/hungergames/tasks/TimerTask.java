@@ -41,10 +41,7 @@ public class TimerTask implements Runnable {
 			game.msgAll(HG.getInstance().getLanguage().getGame_chest_refill());
 		}
 
-		if (remainingtime == teleportTimer && ConfigData.teleportEnd) {
-			game.msgAll(HG.getInstance().getLanguage().getGame_almost_over());
-			game.respawnAll();
-		} else if (this.remainingtime < 10) {
+		if (this.remainingtime < 10) {
 			stop();
 			game.stop(false);
 		} else {

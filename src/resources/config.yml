@@ -1,3 +1,4 @@
+#Game language
 lang: "en_En"
 
 #if true then only main commands will be listed
@@ -6,14 +7,16 @@ only-main-commands: true
 
 #Game Settings
 settings:
+  # The time once the game starts, how long they are safe from PvP (In seconds)
   free-roam: 25
-  bossbar-countdown: true
+  # Maximum amount of items that will spawn in chests
   max-chestcontent: 5
+  # Minimum amount of items that will spawn in chests
   min-chestcontent: 1
+  # Maximum amount of items that will spawn in bonus chests
   max-bonus-chestcontent: 5
+  # Minimum amount of items that will spawn in bonus chests
   min-bonus-chestcontent: 1
-  teleport-at-end: false
-  teleport-at-end-time: 30
   globalexit:
     enable: false
     level: world
@@ -23,29 +26,43 @@ settings:
 
 #Rollback Settings
 rollback:
+  # Let players break blocks in the arena, and restore when the game is done
   allow-block-break: false
+  # When enabled, will not allow players to break blocks during the free-roam time
   protect-during-cooldown: true
-  fix-leaves: true
+  # Prevent players from trampling crops in your arenas
   prevent-trampling: true
+  # List of blocks players can break (use ALL for all blocks)
   editable-blocks:
-    - GRASS
-    - DIRT
     - TALLGRASS
-    - COBBLESTONE
-    - SANDSTONE
-    - GLASS_PANE
+    - LEAVES
+    - LEAVES2
 
+#Final Settings
 final:
+  # When the game has x seconds left, teleport the players back to their starting point
   enabled: false
+  # The time in seconds to announcement of
+  # teleporting players back to their starting point
+  # (note: increments of 30, ex: 30, 60, 90, 120, etc)
   countdown-start: 60
+  # The time in seconds to stop announcement of
+  # teleporting players back to their starting point
   countdown-end: 50
+  # The time in seconds of freezing people before
+  # final fight will begin
   countdown-freeze: 5
-  center-on-first-spawn: true
-  radius: 30
+  # Final border size from the first spawn you set
+  radius: 60
 
+#Spectate Settings
+# When enabled players can spectate games without interfering with players in the game
 spectate:
+  # Disabled by default
   enabled: false
+  # When a player dies, they will automatically be put into spectator
   on-death: true
+  # Players can chat in spectate
   chat: false
 
 #Wand
