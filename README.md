@@ -5,5 +5,5 @@
 ## Info
 Nukkit 2.0 port of Spigot plugin [HungerGames](https://bitbucket.org/ShaneBeeStudios/hungergames)
 
-##
+## Setup
 Checkout [Wiki](https://github.com/Extollite/HungerGames/wiki) for configuration information.
