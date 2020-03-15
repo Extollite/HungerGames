@@ -25,6 +25,7 @@ import cn.nukkit.utils.Identifier;
 import cn.nukkit.utils.TextFormat;
 import com.nukkitx.math.vector.Vector2f;
 import com.nukkitx.math.vector.Vector2i;
+import com.nukkitx.math.vector.Vector3f;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.HGUtils.HGUtils;
 import pl.extollite.hungergames.data.ConfigData;
@@ -32,6 +33,7 @@ import pl.extollite.hungergames.data.Language;
 import pl.extollite.hungergames.data.Leaderboard;
 import pl.extollite.hungergames.data.PlayerData;
 import pl.extollite.hungergames.events.ChestOpenEvent;
+import pl.extollite.hungergames.events.PlayerLeaveGameEvent;
 import pl.extollite.hungergames.form.SpectatorWindow;
 import pl.extollite.hungergames.game.Game;
 import pl.extollite.hungergames.game.Status;
@@ -198,7 +200,7 @@ public class GameListener implements Listener {
             }
             PlayerData pd = playerManager.getPlayerData(p);
             if (isChest(block)) {
-                plugin.getServer().getPluginManager().callEvent(new ChestOpenEvent(pd.getGame(), block, false));
+                plugin.getServer().getPluginManager().callEvent(new ChestOpenEvent(pd.getGame(), block, isBonusChest(block)));
             }
         }
     }
@@ -276,7 +278,7 @@ public class GameListener implements Listener {
         if (game != null) {
             if (ConfigData.breakblocks && playerManager.hasPlayerData(p)) {
                 Game g = playerManager.getPlayerData(p).getGame();
-                if (g.getStatus() == Status.RUNNING || g.getStatus() == Status.BEGINNING || g.getStatus() == Status.FINAL) {
+                if (g.getStatus() == Status.RUNNING || g.getStatus() == Status.BEGINNING || g.getStatus() == Status.FINAL || !ConfigData.protectCooldown) {
                     if (!ConfigData.blocks.contains(b.getId()) && !ConfigData.blocks.contains(Identifier.EMPTY)) {
                         HGUtils.sendMessage(p, lang.getListener_no_edit_block());
                         event.setCancelled(true);
@@ -378,6 +380,10 @@ public class GameListener implements Listener {
         return BlockIds.CHEST.equals(block.getId()) || BlockIds.SHULKER_BOX.equals(block.getId()) || BlockIds.TRAPPED_CHEST.equals(block.getId()) || BlockIds.BARREL.equals(block.getId());
     }
 
+    private boolean isBonusChest(Block block) {
+        return BlockIds.SHULKER_BOX.equals(block.getId()) || BlockIds.TRAPPED_CHEST.equals(block.getId()) || BlockIds.BARREL.equals(block.getId());
+    }
+
 
     @EventHandler
     private void onTrample(PlayerInteractEvent event) {
@@ -451,6 +457,12 @@ public class GameListener implements Listener {
         if (playerManager.hasSpectatorData(player)) {
             playerManager.getSpectatorData(player).getGame().leaveSpectate(player);
         }
+        player.teleportImmediate(ConfigData.globalExit);
+    }
+
+    @EventHandler
+    private void onJoin(PlayerJoinEvent ev){
+        ev.getPlayer().teleportImmediate(ConfigData.globalExit);
     }
 
     @EventHandler
@@ -524,5 +536,4 @@ public class GameListener implements Listener {
             }
         }
     }
-
 }
