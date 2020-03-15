@@ -59,7 +59,7 @@ public class Manager {
 		int max = bonus ? ConfigData.maxbonuscontent : ConfigData.maxchestcontent;
 		int min = bonus ? ConfigData.minbonuscontent : ConfigData.minchestcontent;
 
-		int c = rg.nextInt(max) + 1;
+		int c = rg.nextInt(max);
 		c = Math.max(c, min);
 		while (c != 0) {
 			Item it = randomItem(game, bonus);
