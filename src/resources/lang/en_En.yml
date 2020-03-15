@@ -26,7 +26,7 @@ game-final-border: '&6You reached final border!'
 game-chests-refill: '&6Chests have been refilled'
 
 #  %amount% will be replaced with amount of players left to start a game
-players-to-start: '&b&l%amount% &6players to start!'
+players-to-start: ' &b&l%amount% &6players to start!'
 arena-not-ready: '&cThis arena is not ready! Please wait before joining!'
 arena-spectate: '&6You can spectate this arena by running &3/hg spectate %arena%'
 game-full: '&cis currently full!'
