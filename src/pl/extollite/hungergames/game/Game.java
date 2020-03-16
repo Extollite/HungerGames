@@ -1,5 +1,7 @@
 package pl.extollite.hungergames.game;
 
+import cn.nukkit.block.Block;
+import cn.nukkit.block.BlockIds;
 import cn.nukkit.blockentity.BlockEntity;
 import cn.nukkit.blockentity.Sign;
 import cn.nukkit.inventory.InventoryHolder;
@@ -412,7 +414,7 @@ public class Game {
         if (location == null) return false;
 
         for (Player p : players) {
-            if (p.getLocation().equals(location))
+            if (p.getLocation().getPosition().toInt().equals(location.getPosition().toInt()))
                 return true;
         }
         return false;

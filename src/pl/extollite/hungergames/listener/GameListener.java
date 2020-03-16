@@ -77,6 +77,8 @@ public class GameListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onAttack(EntityDamageByEntityEvent event) {
+        if(event.isCancelled())
+            return;
         Entity defender = event.getEntity();
         Entity damager = event.getDamager();
 
@@ -120,6 +122,8 @@ public class GameListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onDeathByOther(EntityDamageEvent event) {
+        if(event.isCancelled())
+            return;
         if (event.getEntity() instanceof Player) {
             final Player player = ((Player) event.getEntity());
             if (event instanceof EntityDamageByEntityEvent) return;
@@ -133,6 +137,20 @@ public class GameListener implements Listener {
             }
         }
     }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void onDeath(PlayerDeathEvent ev){
+        if(ev.isCancelled())
+            return;
+        Player p = ev.getEntity();
+        PlayerData pd = playerManager.getPlayerData(p);
+        if(pd != null){
+            if(hasTotem(p)) return;
+            ev.setCancelled();
+            processDeath(p, pd.getGame(), p.getLastDamageCause());
+        }
+    }
+
 
     @SuppressWarnings("ConstantConditions")
     private boolean hasTotem(Player player) {
