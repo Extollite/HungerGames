@@ -22,26 +22,21 @@ import cn.nukkit.level.Location;
 import cn.nukkit.level.Sound;
 import cn.nukkit.player.Player;
 import cn.nukkit.utils.Identifier;
-import cn.nukkit.utils.TextFormat;
 import com.nukkitx.math.vector.Vector2f;
-import com.nukkitx.math.vector.Vector2i;
-import com.nukkitx.math.vector.Vector3f;
+import com.nukkitx.protocol.bedrock.packet.SetSpawnPositionPacket;
 import pl.extollite.hungergames.HG;
-import pl.extollite.hungergames.HGUtils.HGUtils;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.data.ConfigData;
 import pl.extollite.hungergames.data.Language;
 import pl.extollite.hungergames.data.Leaderboard;
 import pl.extollite.hungergames.data.PlayerData;
 import pl.extollite.hungergames.events.ChestOpenEvent;
-import pl.extollite.hungergames.events.PlayerLeaveGameEvent;
 import pl.extollite.hungergames.form.SpectatorWindow;
 import pl.extollite.hungergames.game.Game;
 import pl.extollite.hungergames.game.Status;
 import pl.extollite.hungergames.manager.KillManager;
 import pl.extollite.hungergames.manager.Manager;
 import pl.extollite.hungergames.manager.PlayerManager;
-
-import java.util.UUID;
 
 /**
  * Internal event listener
@@ -525,14 +520,18 @@ public class GameListener implements Listener {
             for(Player p : pd.getGame().getPlayers()){
                 if(!p.equals(player)){
                     float newDistance = player.getPosition().distanceSquared(p.getPosition());
-                    if(distance < newDistance){
+                    if(newDistance < distance){
                         distance = newDistance;
                         nearestPlayer = p;
                     }
                 }
             }
             if(nearestPlayer != player){
-                player.setSpawn(nearestPlayer.getLocation());
+                SetSpawnPositionPacket packet = new SetSpawnPositionPacket();
+                packet.setSpawnType(SetSpawnPositionPacket.Type.WORLD_SPAWN);
+                Location spawn = nearestPlayer.getLocation();
+                packet.setBlockPosition(spawn.getPosition().toInt());
+                player.sendPacket(packet);
             }
         }
     }

@@ -13,7 +13,7 @@ items:
   - "BOW 1 x:3"
   - "ARROW 20 x:2"
   - "FISHING_ROD 1"
-  - "COMPASS 1"
+  - "COMPASS 1 name:&3Localizator lore:&7When_you_take:&7it_to_hand:&7shows_nearest_player"
   - "GOLDEN_HELMET 1"
   - "GOLDEN_CHESTPLATE 1"
   - "BONE 1 x:2"
