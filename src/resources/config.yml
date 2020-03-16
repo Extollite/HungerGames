@@ -32,7 +32,7 @@ rollback:
   protect-during-cooldown: true
   # Prevent players from trampling crops in your arenas
   prevent-trampling: true
-  # List of blocks players can break (use ALL for all blocks)
+  # List of blocks players can break (use EMPTY for all blocks)
   editable-blocks:
     - TALLGRASS
     - LEAVES
