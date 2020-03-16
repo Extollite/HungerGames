@@ -110,6 +110,8 @@ public class GameListener implements Listener {
             switch (game.getStatus()) {
                 case RUNNING:
                 case BEGINNING:
+                case FINAL:
+                case FINAL_COUNTDOWN:
                 case COUNTDOWN:
                     ((Cancellable) event).setCancelled();
             }
