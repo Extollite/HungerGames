@@ -1,6 +1,6 @@
 package pl.extollite.hungergames.game;
 
-import pl.extollite.hungergames.HGUtils.HGUtils;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.data.Language;
 

@@ -9,13 +9,10 @@ import cn.nukkit.item.Item;
 import cn.nukkit.level.Location;
 import cn.nukkit.player.Player;
 import pl.extollite.hungergames.HG;
-import pl.extollite.hungergames.HGUtils.HGItemIds;
-import pl.extollite.hungergames.HGUtils.HGUtils;
-import pl.extollite.hungergames.data.ConfigData;
+import pl.extollite.hungergames.hgutils.HGItemIds;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.data.WandLocations;
 import pl.extollite.hungergames.game.Game;
-
-import java.util.Arrays;
 
 public class WandListener implements Listener {
     public WandListener() {

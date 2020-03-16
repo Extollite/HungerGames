@@ -1,6 +1,5 @@
 package pl.extollite.hungergames.game;
 
-import cn.nukkit.block.BlockIds;
 import cn.nukkit.blockentity.BlockEntity;
 import cn.nukkit.blockentity.Sign;
 import cn.nukkit.inventory.InventoryHolder;
@@ -8,22 +7,20 @@ import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.level.Sound;
-import cn.nukkit.math.BlockFace;
+import cn.nukkit.level.gamerule.GameRules;
 import cn.nukkit.player.Player;
 import cn.nukkit.registry.GeneratorRegistry;
 import cn.nukkit.utils.Identifier;
-import jdk.internal.jline.internal.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.extollite.hungergames.HG;
-import pl.extollite.hungergames.HGUtils.HGUtils;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.data.ConfigData;
 import pl.extollite.hungergames.data.Language;
 import pl.extollite.hungergames.data.Leaderboard;
 import pl.extollite.hungergames.data.PlayerData;
 import pl.extollite.hungergames.events.*;
-import pl.extollite.hungergames.manager.ItemManager;
 import pl.extollite.hungergames.manager.PlayerManager;
 import pl.extollite.hungergames.tasks.*;
 import pl.extollite.hungergames.tasks.TimerTask;
@@ -540,6 +537,9 @@ public class Game {
             newSpawns.add(Location.from(spawn.getPosition(), newLevel));
         }
         spawns = newSpawns;
+        newLevel.getGameRules().put(GameRules.DO_WEATHER_CYCLE, false);
+        newLevel.setThundering(false);
+        newLevel.setRaining(false);
     }
 
 
@@ -621,6 +621,9 @@ public class Game {
             newSpawns.add(Location.from(spawn.getPosition(), newLevel));
         }
         spawns = newSpawns;
+        newLevel.getGameRules().put(GameRules.DO_WEATHER_CYCLE, false);
+        newLevel.setThundering(false);
+        newLevel.setRaining(false);
         updateLobbyBlock();
 
         // Call GameEndEvent

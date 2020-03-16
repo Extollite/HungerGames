@@ -5,7 +5,7 @@ import cn.nukkit.command.data.CommandParameter;
 import cn.nukkit.permission.Permission;
 import cn.nukkit.player.Player;
 import pl.extollite.hungergames.HG;
-import pl.extollite.hungergames.HGUtils.HGUtils;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.command.CommandManager;
 import pl.extollite.hungergames.form.SpectatorWindow;
 import pl.extollite.hungergames.game.Game;

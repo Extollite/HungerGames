@@ -1,4 +1,4 @@
-package pl.extollite.hungergames.HGUtils;
+package pl.extollite.hungergames.hgutils;
 
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.player.Player;

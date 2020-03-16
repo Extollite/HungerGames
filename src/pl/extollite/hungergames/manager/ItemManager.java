@@ -3,20 +3,14 @@ package pl.extollite.hungergames.manager;
 import cn.nukkit.item.Item;
 import cn.nukkit.item.ItemColorArmor;
 import cn.nukkit.item.ItemIds;
-import cn.nukkit.item.ItemPotion;
 import cn.nukkit.item.enchantment.Enchantment;
-import cn.nukkit.potion.Potion;
 import cn.nukkit.registry.RegistryException;
 import cn.nukkit.utils.BlockColor;
 import cn.nukkit.utils.DyeColor;
 import cn.nukkit.utils.Identifier;
 import cn.nukkit.utils.TextFormat;
 import pl.extollite.hungergames.HG;
-import pl.extollite.hungergames.HGUtils.HGUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import pl.extollite.hungergames.hgutils.HGUtils;
 
 /**
  * Manage item stacks for kits and chests

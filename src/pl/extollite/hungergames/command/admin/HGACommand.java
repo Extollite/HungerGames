@@ -4,9 +4,8 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.*;
 import cn.nukkit.permission.Permission;
-import cn.nukkit.player.Player;
 import cn.nukkit.utils.TextFormat;
-import pl.extollite.hungergames.HGUtils.HGUtils;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.command.CommandManager;
 

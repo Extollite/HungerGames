@@ -9,8 +9,8 @@ import cn.nukkit.utils.Config;
 import cn.nukkit.utils.Identifier;
 import cn.nukkit.utils.TextFormat;
 import lombok.Getter;
-import pl.extollite.hungergames.HGUtils.HGItemIds;
-import pl.extollite.hungergames.HGUtils.HGUtils;
+import pl.extollite.hungergames.hgutils.HGItemIds;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.HG;
 
 import java.util.ArrayList;

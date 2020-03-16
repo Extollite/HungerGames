@@ -8,7 +8,7 @@ import cn.nukkit.item.Item;
 import cn.nukkit.level.Location;
 import cn.nukkit.player.Player;
 import pl.extollite.hungergames.HG;
-import pl.extollite.hungergames.HGUtils.HGUtils;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.data.ConfigData;
 import pl.extollite.hungergames.game.Game;
 import pl.extollite.hungergames.game.Status;
@@ -59,7 +59,7 @@ public class Manager {
 		int max = bonus ? ConfigData.maxbonuscontent : ConfigData.maxchestcontent;
 		int min = bonus ? ConfigData.minbonuscontent : ConfigData.minchestcontent;
 
-		int c = rg.nextInt(max);
+		int c = rg.nextInt(max) + 1;
 		c = Math.max(c, min);
 		while (c != 0) {
 			Item it = randomItem(game, bonus);

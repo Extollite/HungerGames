@@ -2,7 +2,7 @@ package pl.extollite.hungergames.tasks;
 
 
 import pl.extollite.hungergames.HG;
-import pl.extollite.hungergames.HGUtils.HGUtils;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.game.Game;
 
 public class StartingTask implements Runnable {

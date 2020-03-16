@@ -1,4 +1,4 @@
-package pl.extollite.hungergames.HGUtils;
+package pl.extollite.hungergames.hgutils;
 
 public enum HGItemIds {
     WAND(1);

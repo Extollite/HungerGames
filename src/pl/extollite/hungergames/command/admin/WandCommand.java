@@ -5,15 +5,13 @@ import cn.nukkit.command.data.CommandParameter;
 import cn.nukkit.permission.Permission;
 import cn.nukkit.player.Player;
 import pl.extollite.hungergames.HG;
-import pl.extollite.hungergames.HGUtils.HGUtils;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.command.CommandManager;
 import pl.extollite.hungergames.data.ConfigData;
 import pl.extollite.hungergames.data.WandLocations;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class WandCommand extends CommandManager {
     

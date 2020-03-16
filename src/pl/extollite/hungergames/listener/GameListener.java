@@ -447,17 +447,18 @@ public class GameListener implements Listener {
     private void onLogout(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         if (playerManager.hasPlayerData(player)) {
+            player.teleportImmediate(playerManager.getPlayerData(player).getGame().getExit());
             playerManager.getPlayerData(player).getGame().leave(player, false);
         }
         if (playerManager.hasSpectatorData(player)) {
+            player.teleportImmediate(playerManager.getSpectatorData(player).getGame().getExit());
             playerManager.getSpectatorData(player).getGame().leaveSpectate(player);
         }
-        player.teleportImmediate(ConfigData.globalExit);
     }
 
     @EventHandler
     private void onJoin(PlayerJoinEvent ev){
-        ev.getPlayer().teleportImmediate(ConfigData.globalExit);
+        ev.getPlayer().teleportImmediate(ConfigData.globalExit); //Nukkit 2.0 fix
     }
 
     @EventHandler

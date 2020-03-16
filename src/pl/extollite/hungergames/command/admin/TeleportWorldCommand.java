@@ -7,7 +7,7 @@ import cn.nukkit.level.Level;
 import cn.nukkit.permission.Permission;
 import cn.nukkit.player.Player;
 import pl.extollite.hungergames.HG;
-import pl.extollite.hungergames.HGUtils.HGUtils;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.command.CommandManager;
 
 import java.util.LinkedList;
