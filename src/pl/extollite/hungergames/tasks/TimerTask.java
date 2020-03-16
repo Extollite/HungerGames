@@ -12,7 +12,6 @@ import java.util.UUID;
 public class TimerTask implements Runnable {
 
 	private int remainingtime;
-	private int teleportTimer;
 	private int finalCountdownStart;
 	private int id;
 	private Game game;
@@ -20,7 +19,6 @@ public class TimerTask implements Runnable {
 	public TimerTask(Game g, int time) {
 		this.remainingtime = time;
 		this.game = g;
-		this.teleportTimer = ConfigData.teleportEndTime;
 		this.finalCountdownStart = ConfigData.finalCountdownStart;
 		for(Player player : g.getPlayers()){
 			player.invulnerable = false;
