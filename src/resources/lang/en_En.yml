@@ -46,7 +46,7 @@ cmd-exit-set: '&6Global Exit Spawn Set:'
 cmd-create-need-selection: '&cYou need to make a selection before making an arena!'
 cmd-create-divisible-1: '&cTime-in-seconds must be divisible by 30!'
 cmd-create-divisible-2: '&cEx: 90 is divisible by 30'
-cmd-create-minmax: '&cmin-players cannot be more then max-players!'
+cmd-create-minmax: '&cmin cannot be more then max!'
 cmd-create-created: '&aYou created HungerGames arena &b%arena%&a!'
 
 ## Spawn
@@ -74,6 +74,11 @@ cmd-toggle-locked: '&3%arena%&b is now &4LOCKED&b!'
 ## Chest Refill
 cmd-chestrefill-set: '&6Chest refill for &b%arena% &6has been set to &b%sec% seconds'
 cmd-chestrefill-now: '&6Chests have now been refilled in &b%arena%'
+
+## Chest Random
+cmd-chestrandom-set: '&6Random chests has been toggle for &b%arena%.'
+cmd-chestrandom-same: '&cYou cannot have two chests in the same location!'
+cmd-chestrandom-added: 'You set HungerGames chest #%number%!'
 
 ## Reload
 cmd-reload-attempt: '&a&lAttempting to reload HungerGames!'

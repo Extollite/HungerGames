@@ -90,6 +90,10 @@ public class Language {
     private String cmd_chest_refill;
     private String cmd_chest_refill_now;
 
+    private String cmd_chestrandom_set;
+    private String cmd_chestrandom_added;
+    private String cmd_chestrandom_same;
+
     // Status Translations
     private String status_running;
     private String status_stopped;
@@ -225,6 +229,10 @@ public class Language {
         game_chest_refill = langFile.getString("game-chests-refill");
         cmd_chest_refill = langFile.getString("cmd-chestrefill-set");
         cmd_chest_refill_now = langFile.getString("cmd-chestrefill-now");
+
+        cmd_chestrandom_set = langFile.getString("cmd-chestrandom-set");
+        cmd_chestrandom_added = langFile.getString("cmd-chestrandom-added");
+        cmd_chestrandom_same = langFile.getString("cmd-chestrandom-same");
 
         status_running = langFile.getString("status-running");
         status_stopped = langFile.getString("status-stopped");

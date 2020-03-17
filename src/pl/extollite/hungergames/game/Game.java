@@ -2,7 +2,9 @@ package pl.extollite.hungergames.game;
 
 import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockIds;
+import cn.nukkit.blockentity.Barrel;
 import cn.nukkit.blockentity.BlockEntity;
+import cn.nukkit.blockentity.Chest;
 import cn.nukkit.blockentity.Sign;
 import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.item.Item;
@@ -11,8 +13,10 @@ import cn.nukkit.level.Location;
 import cn.nukkit.level.Sound;
 import cn.nukkit.level.gamerule.GameRules;
 import cn.nukkit.player.Player;
+import cn.nukkit.registry.BlockEntityRegistry;
 import cn.nukkit.registry.GeneratorRegistry;
 import cn.nukkit.utils.Identifier;
+import com.nukkitx.math.vector.Vector3i;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,6 +32,10 @@ import pl.extollite.hungergames.tasks.*;
 import pl.extollite.hungergames.tasks.TimerTask;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static cn.nukkit.blockentity.BlockEntityTypes.BARREL;
+import static cn.nukkit.blockentity.BlockEntityTypes.CHEST;
 
 
 /**
@@ -42,12 +50,16 @@ public class Game {
     private HG plugin;
     private Language lang;
     private String name;
-    private List<Location> spawns;
+    private List<Vector3i> spawns;
     private Bound bound;
     private List<Player> players = new ArrayList<>();
     private List<Player> spectators = new ArrayList<>();
-    private List<Location> chests = new ArrayList<>();
-    private List<Location> playerChests = new ArrayList<>();
+    private List<Vector3i> chests = new ArrayList<>();
+    private List<Vector3i> playerChests = new ArrayList<>();
+    private List<Vector3i> chestLocations = new ArrayList<>();
+    private int minChestsInGame = 0;
+    private int maxChestsInGame = 0;
+    private int bonusChestChance = 0;
     private Map<Integer, Item> items;
     private Map<Integer, Item> bonusItems;
     private Map<Player, Integer> kills = new HashMap<>();
@@ -88,7 +100,7 @@ public class Game {
      * @param roam       Roam time for this game
      * @param isReady    If the game is ready to start
      */
-    public Game(String name, Bound bound, List<Location> spawns, Sign lobbySign, int timer, int minPlayers, int maxPlayers, int roam, boolean isReady) {
+    public Game(String name, Bound bound, List<Vector3i> spawns, Sign lobbySign, int timer, int minPlayers, int maxPlayers, int roam, boolean isReady) {
         this.plugin = HG.getInstance();
         this.playerManager = plugin.getPlayerManager();
         this.lang = plugin.getLanguage();
@@ -245,7 +257,7 @@ public class Game {
      *
      * @param location Location of the chest to add (Needs to actually be a chest there)
      */
-    public void addGameChest(Location location) {
+    public void addGameChest(Vector3i location) {
         chests.add(location);
     }
 
@@ -254,7 +266,7 @@ public class Game {
      *
      * @param location Location of the chest
      */
-    public void addPlayerChest(Location location) {
+    public void addPlayerChest(Vector3i location) {
         playerChests.add(location);
     }
 
@@ -264,7 +276,7 @@ public class Game {
      * @param location Location of chest to check
      * @return True if this chest was added already
      */
-    public boolean isLoggedChest(Location location) {
+    public boolean isLoggedChest(Vector3i location) {
         return chests.contains(location) || playerChests.contains(location);
     }
 
@@ -273,7 +285,7 @@ public class Game {
      *
      * @param location Location of the chest to remove
      */
-    public void removeGameChest(Location location) {
+    public void removeGameChest(Vector3i location) {
         chests.remove(location);
     }
 
@@ -282,7 +294,7 @@ public class Game {
      *
      * @param location Location of the chest
      */
-    public void removePlayerChest(Location location) {
+    public void removePlayerChest(Vector3i location) {
         playerChests.remove(location);
     }
 
@@ -393,28 +405,32 @@ public class Game {
      *
      * @param location The location to add
      */
-    public void addSpawn(Location location) {
+    public void addSpawn(Vector3i location) {
         this.spawns.add(location);
+    }
+
+    public void addChestLocation(Vector3i location) {
+        this.chestLocations.add(location);
     }
 
     private Location pickSpawn() {
         double spawn = getRandomIntegerBetweenRange(maxPlayers - 1);
         if (containsPlayer(spawns.get(((int) spawn)))) {
             Collections.shuffle(spawns);
-            for (Location l : spawns) {
+            for (Vector3i l : spawns) {
                 if (!containsPlayer(l)) {
-                    return l;
+                    return Location.from(l, bound.getLevel());
                 }
             }
         }
-        return spawns.get((int) spawn);
+        return Location.from(spawns.get((int) spawn), bound.getLevel());
     }
 
-    private boolean containsPlayer(Location location) {
+    private boolean containsPlayer(Vector3i location) {
         if (location == null) return false;
 
         for (Player p : players) {
-            if (p.getLocation().getPosition().toInt().equals(location.getPosition().toInt()))
+            if (p.getLocation().getBlock().getPosition().equals(location))
                 return true;
         }
         return false;
@@ -430,16 +446,16 @@ public class Game {
         plugin.getServer().broadcastMessage(HGUtils.colorize(message), spectators);
     }
 
-    public void tipAll(String message){
+    public void tipAll(String message) {
         for (Player p : players) {
             HGUtils.sendTip(p, message);
         }
-        for(Player s : spectators){
+        for (Player s : spectators) {
             HGUtils.sendTip(s, message);
         }
     }
 
-    public void titleAll(String message){
+    public void titleAll(String message) {
         for (Player p : players) {
             HGUtils.sendTitle(p, message);
         }
@@ -450,7 +466,7 @@ public class Game {
         lines[0] = HGUtils.colorize(getLang().getLine_1());
         lines[1] = HGUtils.colorize(getLang().getLine_2().replace("%status%", status.getName()));
         lines[2] = HGUtils.colorize(getLang().getLine_3().replace("%players_count%", "" + players.size() + "/" + maxPlayers));
-        if(status != Status.WAITING && status != Status.STOPPED && status != Status.COUNTDOWN && status != Status.READY)
+        if (status != Status.WAITING && status != Status.STOPPED && status != Status.COUNTDOWN && status != Status.READY)
             lines[3] = HGUtils.colorize(getLang().getLine_4_spectate().replace("%game_name%", this.name));
         lines[3] = HGUtils.colorize(getLang().getLine_4_join().replace("%game_name%", this.name));
         s.setText(lines);
@@ -495,7 +511,7 @@ public class Game {
             lines[0] = HGUtils.colorize(getLang().getLine_1());
             lines[1] = HGUtils.colorize(getLang().getLine_2().replace("%status%", status.getName()));
             lines[2] = HGUtils.colorize(getLang().getLine_3().replace("%players_count%", "" + players.size() + "/" + maxPlayers));
-            if(status != Status.WAITING && status != Status.STOPPED && status != Status.COUNTDOWN && status != Status.READY)
+            if (status != Status.WAITING && status != Status.STOPPED && status != Status.COUNTDOWN && status != Status.READY)
                 lines[3] = HGUtils.colorize(getLang().getLine_4_spectate().replace("%game_name%", this.name));
             lines[3] = HGUtils.colorize(getLang().getLine_4_join().replace("%game_name%", this.name));
             s.setText(lines);
@@ -522,7 +538,7 @@ public class Game {
         msgAll(getLang().getGame_teleported());
     }
 
-    public void forceRollback(){
+    public void forceRollback() {
         Level levelToUnload = bound.getLevel();
         GeneratorRegistry generatorRegistry = GeneratorRegistry.get();
         Identifier generator = Identifier.fromString(HG.getInstance().getServer().getConfig("worlds." + levelToUnload.getId() + ".generator"));
@@ -534,11 +550,6 @@ public class Game {
                 .generator(generator == null ? generatorRegistry.getFallback() : generator)
                 .generatorOptions(options).load().join().setAutoSave(false);
         Level newLevel = bound.getLevel();
-        List<Location> newSpawns = new LinkedList<>();
-        for(Location spawn : spawns){
-            newSpawns.add(Location.from(spawn.getPosition(), newLevel));
-        }
-        spawns = newSpawns;
         newLevel.getGameRules().put(GameRules.DO_WEATHER_CYCLE, false);
         newLevel.setThundering(false);
         newLevel.setRaining(false);
@@ -564,7 +575,7 @@ public class Game {
      *
      * @param death Whether the game stopped after the result of a death (false = no winnings payed out)
      */
-    public void stop(Boolean death) {
+    public void stop(boolean death) {
         bound.removeEntities();
         List<UUID> win = new ArrayList<>();
         cancelTasks();
@@ -592,8 +603,8 @@ public class Game {
             }
         }
 
-        for (Location loc : chests) {
-            BlockEntity chest = loc.getLevel().getBlockEntity(loc.getBlock().getPosition());
+        for (Vector3i loc : chests) {
+            BlockEntity chest = bound.getLevel().getBlockEntity(loc);
             if (chest instanceof InventoryHolder) {
                 ((InventoryHolder) chest).getInventory().clearAll();
                 chest.scheduleUpdate();
@@ -601,31 +612,15 @@ public class Game {
         }
         chests.clear();
         playerChests.clear();
-        String winner = String.join(", ",HGUtils.convertUUIDListToStringList(win));
+        String winner = String.join(", ", HGUtils.convertUUIDListToStringList(win));
         // prevent not death winners from gaining a prize
         if (death)
             HGUtils.broadcast(getLang().getPlayer_won().replace("%arena%", name).replace("%winner%", winner));
 
-        Level levelToUnload = bound.getLevel();
-        GeneratorRegistry generatorRegistry = GeneratorRegistry.get();
-        Identifier generator = Identifier.fromString(HG.getInstance().getServer().getConfig("worlds." + levelToUnload.getId() + ".generator"));
-        String options = HG.getInstance().getServer().getConfig("worlds." + levelToUnload.getId() + ".options", "");
-
-        HG.getInstance().getServer().getLevelManager().deregister(levelToUnload);
-        HG.getInstance().getServer().unloadLevel(levelToUnload, true);
-        HG.getInstance().getServer().loadLevel().id(levelToUnload.getId()).seed(levelToUnload.getSeed())
-                .generator(generator == null ? generatorRegistry.getFallback() : generator)
-                .generatorOptions(options).load().join().setAutoSave(false);
+        forceRollback();
+        if (maxChestsInGame != 0)
+            chooseChestLocations();
         status = Status.READY;
-        Level newLevel = bound.getLevel();
-        List<Location> newSpawns = new LinkedList<>();
-        for(Location spawn : spawns){
-            newSpawns.add(Location.from(spawn.getPosition(), newLevel));
-        }
-        spawns = newSpawns;
-        newLevel.getGameRules().put(GameRules.DO_WEATHER_CYCLE, false);
-        newLevel.setThundering(false);
-        newLevel.setRaining(false);
         updateLobbyBlock();
 
         // Call GameEndEvent
@@ -756,8 +751,8 @@ public class Game {
         }
         this.spectators.add(spectator);
         spectator.setGamemode(Player.SPECTATOR);
-        spectator.teleport(this.getSpawns().get(0));
-       // spectator.getInventory().setItem(0, ItemManager.getSpectatorCompass());
+        spectator.teleport(Location.from(this.getSpawns().get(0), bound.getLevel()));
+        // spectator.getInventory().setItem(0, ItemManager.getSpectatorCompass());
     }
 
     /**
@@ -774,4 +769,31 @@ public class Game {
         spectators.remove(spectator);
     }
 
+    public void chooseChestLocations() {
+        List<Vector3i> copyChestLocation = new LinkedList<>(chestLocations);
+        Collections.shuffle(copyChestLocation);
+        int chestsToCreate = ThreadLocalRandom.current().nextInt(minChestsInGame, maxChestsInGame + 1);
+        int currChests = 0;
+        Level level = bound.getLevel();
+        for (Vector3i loc : copyChestLocation) {
+            if (currChests < chestsToCreate) {
+                if (new Random().nextDouble() <= bonusChestChance / 100D) {
+                    BlockEntity entity = level.getBlockEntity(loc);
+                    if (entity != null && !entity.isClosed())
+                        entity.close();
+                    level.setBlock(loc, Block.get(BlockIds.BARREL), true, true);
+                    BlockEntityRegistry.get().newEntity(BARREL, level.getChunk(loc), loc);
+                } else {
+                    level.setBlock(loc, Block.get(BlockIds.CHEST), true, true);
+                    BlockEntityRegistry.get().newEntity(CHEST, level.getChunk(loc), loc);
+                }
+                currChests++;
+            } else {
+                level.setBlock(loc, Block.get(BlockIds.AIR), true, true);
+                BlockEntity entity = level.getBlockEntity(loc);
+                if (entity != null && !entity.isClosed())
+                    entity.close();
+            }
+        }
+    }
 }
