@@ -5,7 +5,7 @@ name: Java CI
 
 on: [push]
 jobs:
-  test:
+  push:
 
     runs-on: ubuntu-latest
 
