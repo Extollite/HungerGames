@@ -8,3 +8,16 @@ Test server sg.mcpe.to:55555
 
 ## Setup
 Checkout [Wiki](https://github.com/Extollite/HungerGames/wiki) for configuration information.
+
+## Features
+- Random items in chests.
+- Arena rollback system(every arena needs to be in separate world to work).
+- Spectator mode.
+- Game final with teleporting players back to spawn.
+
+## TODO
+- [x] Random chests generating. [#1](https://github.com/Extollite/HungerGames/pull/1)
+- [ ] Scoreboard informations.
+- [ ] Placeholders(Needs placeholder api for nukkit 2.0).
+- [ ] Kits.
+- [ ] Teams.
