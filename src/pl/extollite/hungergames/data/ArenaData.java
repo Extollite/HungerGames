@@ -7,7 +7,6 @@ import cn.nukkit.level.Location;
 import cn.nukkit.level.gamerule.GameRules;
 import cn.nukkit.utils.Config;
 import com.nukkitx.math.vector.Vector3i;
-import com.sun.tools.javac.file.Locations;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.game.Bound;
 import pl.extollite.hungergames.game.Game;
