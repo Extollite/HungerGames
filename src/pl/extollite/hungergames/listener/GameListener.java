@@ -22,7 +22,6 @@ import cn.nukkit.level.Location;
 import cn.nukkit.level.Sound;
 import cn.nukkit.player.Player;
 import cn.nukkit.utils.Identifier;
-import com.nukkitx.math.vector.Vector2f;
 import com.nukkitx.math.vector.Vector2i;
 import com.nukkitx.protocol.bedrock.packet.SetSpawnPositionPacket;
 import pl.extollite.hungergames.HG;
