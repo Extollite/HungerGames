@@ -1,0 +1,180 @@
+#  GENERAL PLUGIN MESSAGES
+prefix: "§6[HG]§f "
+cmd-no-permission: "Du hast keine Berechtigung diesen Befehl zu nutzen."
+
+#  GAME MESSAGES
+#  %player_name% will be replaced with name of player
+player-joined-game: '&b&l%player_name% &7ist dem Spiel beigetreten.'
+player-left-game: '&b&l%player_name% &chat das Spiel verlassen.'
+
+#  %arena% will be replaced with name of arena the player won in
+#  %winner% will be replaced with name of winner
+player-won: '&b&l%winner% &6hat HungerGames in arena &b&l%arena%&r gewonnen&7!'
+
+#  %arena% will be replaced with the name of the arena
+game-started: '&6&l Arena &c&l%arena% &6&lbeginnt in 30 Sekunden!'
+game-join: '&6&l benutze:&c&l /hg join %arena%&6&l zum beitreten!'
+game-countdown: 'Das Spiel startet in %timer% Sekunden..'
+game-almost-over: '&l&cDas Spiel ist fast vorbei, kämpfe bis zum Tod!'
+game-ending-minsec: '&aDas Spiel endet in %minutes% Minute(n), und %seconds% Sekunde(n)!'
+game-ending-min: '&aDas Spiel endet in %minutes% Minute(n)!'
+game-ending-sec: '&aDas Spiel endet in %seconds% Sekunde(n)!'
+game-teleport: '&6Das Finale kommt, du wirst teleportiert in %seconds% Sekunde(n) zur Mitte der Arena!'
+game-teleported: '&6Spieler teleportiert, Finale beginnt!'
+game-final-border: '&6Sie haben die letzte Station erreicht!'
+
+game-chests-refill: '&6Kisten wurden neu aufgefüllt'
+
+#  %amount% will be replaced with amount of players left to start a game
+players-to-start: ' &b&l%amount% &6Spieler zum start!'
+arena-not-ready: '&cDiese Arena ist noch nicht fertig! Bitte warten Sie, bevor Sie beitreten!'
+arena-spectate: '&6Sie können dieser Arena zuschauen mit &3/hg spectate %arena%'
+game-full: '&cist derzeit voll!'
+
+# COMMAND MESSAGES
+cmd-usage:
+  - "/hga wand - gebe Bearbeitungswekzeug"
+
+# ADMIN COMMAND MESSAGES
+cmd-admin-usage:
+  - "/hga wand - gebe Bearbeitungswekzeug"
+
+## Exit
+cmd-exit-set: '&6Global Exit Spawn festgelegt:'
+
+##Create
+cmd-create-need-selection: '&cSie müssen eine Auswahl treffen, bevor Sie eine Arena erstellen!'
+cmd-create-divisible-1: '&cDie Zeit in Sekunden muss durch 30 teilbar sein!'
+cmd-create-divisible-2: '&cEx: 90 ist teilbar durch 30'
+cmd-create-minmax: '&cmin-player kann nicht mehr als max-player sein!'
+cmd-create-created: '&aSie haben die HungerGames-Arena &b%arena%&a erstellt!'
+
+## Spawn
+cmd-spawn-same: '&cSie können nicht zwei Spawns am selben Ort haben!'
+cmd-spawn-set: 'Du hast den HungerGames Spawn gesetzt #%number%!'
+
+## Join
+cmd-join-in-game: '&cDu bist bereits in einem Spiel!'
+
+## Leave
+cmd-leave-left: '&6Du hast &b&l%arena% verlassen&c!'
+cmd-leave-not-in-game: '&cDu bist derzeit in keinem Spiel!'
+
+## Start
+cmd-start-starting: '&b%arena%&6 startet jetzt!'
+
+cmd-stop-all: '&aAlle Spiele gestoppt'
+cmd-stop-arena: '&b%arena%&c wurde gestoppt!'
+cmd-stop-noexist: '&cDas Spiel &b%arena%&c existiert nicht!'
+
+## Toggle
+cmd-toggle-unlocked: '&b%arena%&6 ist jetzt &aGeöffnet!'
+cmd-toggle-locked: '&3%arena%&b ist jetzt &4Geschlossen&b!'
+
+## Chest Refill
+cmd-chestrefill-set: '&6Nachüllen der Kisten in &b%arena% &6wurde auf &b%sec% Sekunden gesetzt'
+cmd-chestrefill-now: '&6Kisten wurden jetzt wieder aufgefüllt in &b%arena%'
+
+## Reload
+cmd-reload-attempt: '&a&lVersuch, Hunger Games neu zu laden!'
+cmd-reload-reloaded-arena: '&6 - &eArenen wurden neu geladen!'
+cmd-reload-reloaded-kit: '&6 - &eKits wurden neu geladen!'
+cmd-reload-reloaded-items: '&6 - &eRandomItems wurden neu geladen!'
+cmd-reload-reloaded-config: '&6 - &eKonfigurationswerte wurden neu geladen!'
+cmd-reload-reloaded-success: '&l&a- HungerGames erfolgreich neu geladen'
+
+
+
+## Delete
+cmd-delete-attempt: '&aAVersuch %arena% zu löschen!'
+cmd-delete-stopping: '&7- &cSpiel läuft! &astoppe..'
+cmd-delete-kicking: '&7- &c&cSpieler erkannt! &aKicking..'
+cmd-delete-deleted: '&aHungerGames-Arena &b%arena%&a erfolgreich gelöscht!'
+cmd-delete-failed: '&cArena konnte nicht gelöscht werden!'
+cmd-delete-noexist: '&cDiese Arena existiert nicht!'
+
+
+## LobbyWall
+cmd-sign-set: '&aDas Lobbyschild wurde gesetzt!'
+lobby-sign:
+  line-1: '&1&lHungerGames'
+  line-2: '%status%'
+  line-3: '%players_count%'
+  line-4-join: '&0&lBeitreten %game_name%'
+  line-4-spectate: '&0&lZuschauen %game_name%'
+
+# Handler
+cmd-handler-nocmd: '&cSie können im Spiel keine HungerGames-Befehle verwenden!'
+cmd-handler-playing: '&cDieser Spieler spielt gerade &3HungerGames!'
+
+#  FREE ROAM
+roam-game-started: '&4[]-[ &6&lDas Spiel hat begonnen! &4]-[]'
+#  %roam^ will be replaced with the time the players can roam for
+roam-time: '&e Sie haben %roam% Sekunden Zeit bevor Sie schaden nehmen!'
+roam-finished: '&c&lSchutzzone ist vorbei, PVP ist jetzt aktiviert!'
+
+#  LISTENER
+listener-not-running: '&cDas Spiel läuft nicht!'
+listener-no-edit-block: '&cSie können diesen Blocktyp nicht bearbeiten!'
+listener-no-interact: '&cSie können nicht interagieren, bis das Spiel gestartet wurde!'
+listener-sign-click-hand: '&cKlicken Sie mit Ihrer Hand auf das Schild!'
+
+#  GAME STATUSES
+status-running: '&a&lIm Gange'
+status-stopped: '&4&lGestoppt'
+status-ready: '&5&lBereit'
+status-waiting: '&b&lWarten...'
+status-broken: '&4&lKAPUTT'
+status-rollback: '&c&lWiederherstellen...'
+status-notready: '&1&lNichtBereit'
+status-beginning: '&a&lBeginnt'
+status-countdown: '&b&lStartet...'
+status-final: '&b&lFinale'
+
+# SPECTATORS MESSAGES
+spectator-menu-title: "Teleportieren"
+spectator-menu-content: "Wähle den Spieler aus, zu dem du teleportieren möchtest:"
+
+#Death messages
+death-fell-accident-generic:
+  - "&3{%0} stürzte in die Tiefe"
+death-attack-inFire:
+  - "&3{%0} ging in Flammen auf"
+death-attack-onFire:
+  - "&3{%0} zu Tode verbrannt"
+death-attack-lava:
+  - "&3{%0} hat versucht in Lava zu schwimmen"
+death-attack-lava-magma:
+  - "&3{%0} der Boden war aus Lava"
+death-attack-inWall:
+  - "&3{%0} ist in einer Wand erstickt"
+death-attack-drown:
+  - "&3{%0} ertrunken"
+death-attack-cactus:
+  - "&3{%0} wurde erstochen"
+death-attack-generic:
+  - "&3{%0} ist gestorben"
+death-attack-explosion:
+  - "&3{%0} wurde in die Luft gejagt"
+death-attack-explosion-player:
+  - "&3{%0} wurde von {%1} gesprengt"
+death-attack-magic:
+  - "&3{%0} wurde durch Magie getötet"
+death-attack-wither:
+  - "&3{%0} verwelkt"
+death-attack-mob:
+  - "&3{%0} wurde von {%1} getötet"
+death-attack-player:
+  - "&3{%0} wurde von {%1} getötet"
+death-attack-player-item:
+  - "&3{%0} wurde getötet von {%1} mit {%2}"
+death-attack-arrow:
+  - "&3{%0} wurde von {%1} erschossen"
+death-attack-arrow-item:
+  - "&3{%0} wurde von {%1} mit {%2} erschossen"
+death-attack-fall:
+  - "&3{%0} ist zu hart auf den Boden aufgeschlagen"
+death-attack-outOfWorld:
+  - "&3{%0} fiel aus der Welt"
+death-attack-starve:
+  - "&3{%0} verhungerte"
