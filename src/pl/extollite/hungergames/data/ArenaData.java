@@ -19,7 +19,7 @@ public class ArenaData {
         if(arenas.exists("arenas")){
             for(String arena : arenas.getSection("arenas").getKeys(false)){
                 boolean isReady = true;
-                List<Location> spawns = new ArrayList<>();
+                List<Vector3i> spawns = new ArrayList<>();
                 Sign lobbysign;
                 int timer;
                 int minplayers;
@@ -31,8 +31,7 @@ public class ArenaData {
                 Level lobby = HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".lobbysign.level"));
                 lobbysign = (Sign)lobby.getBlockEntity(Vector3i.from(arenas.getInt("arenas."+arena+".lobbysign.x"), arenas.getInt("arenas."+arena+".lobbysign.y"), arenas.getInt("arenas."+arena+".lobbysign.z")));
                 for(String spawn : arenas.getSection("arenas."+arena+".spawns").getKeys(false)){
-                    Level gameLevel = HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".spawns."+spawn+".level"));
-                    spawns.add(Location.from(arenas.getInt("arenas."+arena+".spawns."+spawn+".x"), arenas.getInt("arenas."+arena+".spawns."+spawn+".y"), arenas.getInt("arenas."+arena+".spawns."+spawn+".z"), gameLevel));
+                    spawns.add(Vector3i.from(arenas.getInt("arenas."+arena+".spawns."+spawn+".x"), arenas.getInt("arenas."+arena+".spawns."+spawn+".y"), arenas.getInt("arenas."+arena+".spawns."+spawn+".z")));
                 }
                 Level boundLevel = HG.getInstance().getServer().getLevel(arenas.getString("arenas."+arena+".bound.level"));
                 boundLevel.setAutoSave(false);
@@ -73,6 +72,18 @@ public class ArenaData {
                 if (arenas.exists("arenas." + arena + ".chest-refill")) {
                     int chestRefill = arenas.getInt("arenas." + arena + ".chest-refill");
                     game.setChestRefillTime(chestRefill);
+                }
+
+                if(arenas.getBoolean("arenas." + arena + ".random-chests.enabled", false)){
+                    game.setMaxChestsInGame(arenas.getInt("arenas." + arena + ".random-chests.max-chests", 50));
+                    game.setMinChestsInGame(arenas.getInt("arenas." + arena + ".random-chests.min-chests", 40));
+                    game.setBonusChestChance(arenas.getInt("arenas." + arena + ".random-chests.bonusChance", 20));
+                    List<Vector3i> chests = new LinkedList<>();
+                    for(String pos : arenas.getSection("arenas."+arena+".random-chests.locations").getKeys(false)){
+                        chests.add(Vector3i.from(arenas.getInt("arenas."+arena+".random-chests.locations."+pos+".x"), arenas.getInt("arenas."+arena+".random-chests.locations."+pos+".y"), arenas.getInt("arenas."+arena+".random-chests.locations."+pos+".z")));
+                    }
+                    game.setChestLocations(chests);
+                    game.chooseChestLocations();
                 }
             }
         }

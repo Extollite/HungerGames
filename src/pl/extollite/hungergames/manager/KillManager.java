@@ -10,6 +10,7 @@ import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.locale.TranslationContainer;
 import cn.nukkit.player.Player;
 import pl.extollite.hungergames.HG;
+import pl.extollite.hungergames.data.Leaderboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class KillManager {
         List<String> params = new ArrayList<>();
         Player player = ((Player)cause.getEntity());
         params.add(player.getDisplayName());
-        Entity killer;
+        Entity killer = null;
         switch (cause.getCause()) {
             case ENTITY_ATTACK:
                 if (cause instanceof EntityDamageByEntityEvent) {
@@ -139,6 +140,9 @@ public class KillManager {
             default:
                 break;
 
+        }
+        if(killer instanceof Player){
+            HG.getInstance().getLeaderboard().addStat((Player)killer, Leaderboard.Stats.KILLS);
         }
         List<String> messages = HG.getInstance().getLanguage().getDeathMessage(message);
         if(messages == null){

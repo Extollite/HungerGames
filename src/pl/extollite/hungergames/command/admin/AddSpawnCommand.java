@@ -8,6 +8,7 @@ import cn.nukkit.math.BlockFace;
 import cn.nukkit.permission.Permission;
 import cn.nukkit.player.Player;
 import cn.nukkit.utils.Config;
+import com.nukkitx.math.vector.Vector3i;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.command.CommandManager;
@@ -38,8 +39,8 @@ public class AddSpawnCommand extends CommandManager {
                 return false;
             }
             Config arenas = new Config(HG.getInstance().getDataFolder()+"/arenas.yml", Config.YAML);
-            for(Location spawn : g.getSpawns()){
-                if(spawn.getBlock().getPosition().equals(loc.getBlock().getPosition())){
+            for(Vector3i spawn : g.getSpawns()){
+                if(spawn.equals(loc.getBlock().getPosition())){
                     HGUtils.sendMessage(p, HG.getInstance().getLanguage().getCmd_spawn_same());
                     return true;
                 }
@@ -49,8 +50,7 @@ public class AddSpawnCommand extends CommandManager {
                     loc = loc.add(0, -1, 0);
                 }
             }
-            g.addSpawn(loc);
-            arenas.set("arenas."+g.getName()+".spawns."+g.getSpawns().size()+"s.level", loc.getLevel().getId());
+            g.addSpawn(loc.getBlock().getPosition());
             arenas.set("arenas."+g.getName()+".spawns."+g.getSpawns().size()+"s.x", loc.getFloorX());
             arenas.set("arenas."+g.getName()+".spawns."+g.getSpawns().size()+"s.y", loc.getFloorY());
             arenas.set("arenas."+g.getName()+".spawns."+g.getSpawns().size()+"s.z", loc.getFloorZ());

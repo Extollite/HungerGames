@@ -22,7 +22,7 @@ import cn.nukkit.level.Location;
 import cn.nukkit.level.Sound;
 import cn.nukkit.player.Player;
 import cn.nukkit.utils.Identifier;
-import com.nukkitx.math.vector.Vector2f;
+import com.nukkitx.math.vector.Vector2i;
 import com.nukkitx.protocol.bedrock.packet.SetSpawnPositionPacket;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.hgutils.HGUtils;
@@ -199,9 +199,9 @@ public class GameListener implements Listener {
     private void onChestOpen(ChestOpenEvent event) {
         Block b = event.getBlock();
         Game g = event.getGame();
-        if (!g.isLoggedChest(Location.from(b.getPosition(), b.getLevel()))) {
+        if (!g.isLoggedChest(b.getPosition())) {
             Manager.fillChests(b, g, event.isBonus());
-            g.addGameChest(Location.from(b.getPosition(), b.getLevel()));
+            g.addGameChest(b.getPosition());
         }
     }
 
@@ -299,7 +299,7 @@ public class GameListener implements Listener {
                         event.setCancelled(true);
                     } else {
                         if (isChest(b)) {
-                            g.addPlayerChest(location);
+                            g.addPlayerChest(b.getPosition());
                         }
                     }
                 } else {
@@ -331,8 +331,8 @@ public class GameListener implements Listener {
                         event.setCancelled(true);
                     } else {
                         if (isChest(b)) {
-                            g.removeGameChest(location);
-                            g.removePlayerChest(location);
+                            g.removeGameChest(b.getPosition());
+                            g.removePlayerChest(b.getPosition());
                         }
                     }
                 } else {
@@ -345,7 +345,7 @@ public class GameListener implements Listener {
                     switch (status) {
                         case BEGINNING:
                         case RUNNING:
-                            game.removeGameChest(location);
+                            game.removeGameChest(b.getPosition());
                         default:
                             return;
                     }
@@ -517,8 +517,8 @@ public class GameListener implements Listener {
         if(pd.getGame().getStatus() != Status.FINAL)
             return;
         if(!event.getFrom().getBlock().getPosition().equals(event.getTo().getBlock().getPosition())){
-            Vector2f from = pd.getGame().getSpawns().get(0).getPosition().toVector2(true);
-            Vector2f to = event.getTo().getPosition().toVector2(true);
+            Vector2i from = pd.getGame().getSpawns().get(0).toVector2(true);
+            Vector2i to = event.getTo().getPosition().toInt().toVector2(true);
             if(from.distanceSquared(to) > (ConfigData.finalRadius*ConfigData.finalRadius)){
                 player.teleportImmediate(event.getTo());
                 player.sendTip(HGUtils.colorize(HG.getInstance().getLanguage().getGame_final_border()));
