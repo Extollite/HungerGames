@@ -41,8 +41,10 @@ public class AddChestCommand extends CommandManager {
                 return false;
             }
             Block b = p.getTargetBlock(3);
-            if(b == null || b.getId().equals(BlockIds.AIR))
-                return false;
+            if(b == null || b.getId().equals(BlockIds.AIR)){
+                HGUtils.sendMessage(p, "&cChest too far, max 3 blocks of distance!");
+                return true;
+            }
             for(Vector3i chest : g.getChestLocations()){
                 if(chest.equals(b.getPosition())){
                     HGUtils.sendMessage(p, HG.getInstance().getLanguage().getCmd_chestrandom_same());

@@ -97,6 +97,7 @@ public class HG extends PluginBase {
             mainAdminCommand.registerCommand(new TeleportWorldCommand());
             mainAdminCommand.registerCommand(new RandomChestsCommand());
             mainAdminCommand.registerCommand(new AddChestCommand());
+            mainAdminCommand.registerCommand(new ConvertChestsCommand());
         }
         else{
             JoinCommand joinCommand = new JoinCommand();
@@ -163,6 +164,9 @@ public class HG extends PluginBase {
             AddChestCommand addChestCommand = new AddChestCommand();
             mainAdminCommand.registerCommand(addChestCommand);
             this.getServer().getCommandMap().register(this, addChestCommand);
+            ConvertChestsCommand convertChestsCommand = new ConvertChestsCommand();
+            mainAdminCommand.registerCommand(convertChestsCommand);
+            this.getServer().getCommandMap().register(this, convertChestsCommand);
         }
     }
 
