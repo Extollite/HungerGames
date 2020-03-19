@@ -48,8 +48,9 @@ public class ConvertChestsCommand extends CommandManager {
             Config arenas = new Config(HG.getInstance().getDataFolder()+"/arenas.yml", Config.YAML);
             for(BlockEntity blockEntity : g.getBound().getLevel().getBlockEntities()){
                 if(blockEntity instanceof InventoryHolder && !g.getChestLocations().contains(blockEntity.getBlock().getPosition())){
-                    int chestNumber = g.getChestLocations().size();
                     Block b = blockEntity.getBlock();
+                    g.addChestLocation(b.getPosition());
+                    int chestNumber = g.getChestLocations().size();
                     arenas.set("arenas."+g.getName()+".random-chests.locations."+chestNumber+"s.x", b.getX());
                     arenas.set("arenas."+g.getName()+".random-chests.locations."+chestNumber+"s.y", b.getY());
                     arenas.set("arenas."+g.getName()+".random-chests.locations."+chestNumber+"s.z", b.getZ());
