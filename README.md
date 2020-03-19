@@ -14,6 +14,7 @@ Checkout [Wiki](https://github.com/Extollite/HungerGames/wiki) for configuration
 - Arena rollback system(every arena needs to be in separate world to work).
 - Spectator mode.
 - Game final with teleporting players back to spawn.
+- Random chests generating.
 
 ## TODO
 - [x] Random chests generating. [#1](https://github.com/Extollite/HungerGames/pull/1)
