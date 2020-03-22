@@ -1,0 +1,129 @@
+---
+prefix: "&c饥饿游戏 &f// &f"
+cmd-no-permission: "你没有权限执行此命令."
+player-joined-game: "&f玩家 &e%player_name% &f加入游戏."
+player-left-game: "&f玩家 &e%player_name% &f退出游戏."
+player-won: "&f恭喜 &e%winner% &f赢得了 &a%arena% &f游戏胜利!"
+game-started: "&f竞技场  &c%arena% &f将在 &a30秒 &f开始!"
+game-join: "&f用法: &e/hg join %arena% &f加入游戏!"
+game-countdown: "游戏将在 &a%timer%? &f后开始.."
+game-almost-over: "游戏即将结束,决战!"
+game-ending-minsec: "&f游戏结束,游戏时长: &a%minutes%分 %seconds%秒&f!"
+game-ending-min: "&f游戏结束,游戏时长: &a%minutes%分&f!"
+game-ending-sec: "&f游戏结束,游戏时长: &a%seconds%秒&f!"
+game-teleport: "&f最终对决即将到来, 你将在 &c%seconds%秒 后被传送至竞技场中心点!"
+game-teleported: "&f玩家已全部被传送至竞技场中心,决战开始!"
+game-final-border: "&f你已抵达竞技场边界!"
+game-chests-refill: "&f箱子已满"
+players-to-start: " &a%amount%名玩家开始游戏!"
+arena-not-ready: "&c竞技场未准备,请等待加入!"
+arena-spectate: "&f你可以输入命令加入观看比赛,命令: &3/hg spectate %arena%"
+game-full: "&c竞技场已满!"
+cmd-usage:
+- "/hga wand - 获得区域选择工具"
+cmd-admin-usage:
+- "/hga wand - 获得区域选择工具"
+cmd-exit-set: "&fGlobal Exit Spawn Set:"
+cmd-create-need-selection: "&c请先使用工具选择两点后创建竞技场!"
+cmd-create-divisible-1: "&c时间(单位秒)必须为30的倍数!"
+cmd-create-divisible-2: "&c例如: 90时30的3倍"
+cmd-create-minmax: "&c最小值不能大于最大值!"
+cmd-create-created: "&f饥饿游戏竞技场已创建,名称: &e%arena%&f!"
+cmd-spawn-same: "&f你不能在同一位置设置两个出生点!"
+cmd-spawn-set: "出生点设置完成,数量: #%number%!"
+cmd-join-in-game: "&c你已在游戏中!"
+cmd-leave-left: "&f你退出了 &c%arena%&f!"
+cmd-leave-not-in-game: "&c你不在任何游戏中!"
+cmd-start-starting: "&e%arena%&f 已经开始游戏!"
+cmd-stop-all: "&a停止所有游戏"
+cmd-stop-arena: "&e%arena%&f 已停止游戏!"
+cmd-stop-noexist: "&f竞技场 &c%arena%&f 不存在!"
+cmd-toggle-unlocked: "&f竞技场 &c%arena%&f 当前&a已解锁&f!"
+cmd-toggle-locked: "&f竞技场 &c%arena%&f 当前&4未解锁&f!"
+cmd-chestrefill-set: "&f竞技场 &c%arena% &f的资源箱将在 &a%sec%秒 &f后填充!"
+cmd-chestrefill-now: "&f竞技场 &c%arena% &f资源箱已填充."
+cmd-chestrandom-set: "&f随机资源箱已切换至 &c%arena%&f."
+cmd-chestrandom-same: "&c你不能在同一点设置两个资源箱!"
+cmd-chestrandom-added: "资源箱设置完成,数量: #%number%!"
+cmd-reload-attempt: "&a重新加载饥饿游戏!"
+cmd-reload-reloaded-arena: "&f - &e区域已重新加载!"
+cmd-reload-reloaded-kit: "&f - &e套装已重新加载!"
+cmd-reload-reloaded-items: "&f - &e随机物品已重新加载!"
+cmd-reload-reloaded-config: "&f - &e配置文件已重新加载!"
+cmd-reload-reloaded-success: "&l&a- 饥饿游戏重新加载成功"
+cmd-delete-attempt: "&正在删除竞技场 %arena%!"
+cmd-delete-stopping: "&7- &c游戏运行中! &a正在关闭.."
+cmd-delete-kicking: "&7- &c检测到玩家! &a正在踢出.."
+cmd-delete-deleted: "&f成功删除饥饿游戏竞技场 &c%arena%&f!"
+cmd-delete-failed: "&c竞技场删除失败!"
+cmd-delete-noexist: "&c竞技场不存在!"
+cmd-sign-set: "&a大厅木牌已设置!"
+lobby-sign:
+  line-1: "&1&l饥饿游戏"
+  line-2: "%status%"
+  line-3: "%players_count%"
+  line-4-join: "&0&l加入 %game_name%"
+  line-4-spectate: "&0&l观看 %game_name%"
+cmd-handler-nocmd: "&c你不能执行HungerGames以外命令!"
+cmd-handler-playing: "&c玩家正在玩 &3饥饿游戏!"
+roam-game-started: "&4[]-[ &f&l游戏已开始! &4]-[]"
+roam-time: "&e 你有 %roam%秒 的保护时间,期间不受伤害!"
+roam-finished: "&c&l保护时间结束,PVP开始!"
+listener-not-running: "&c游戏未运行!"
+listener-no-edit-block: "&c你不能编辑方块类型!"
+listener-no-interact: "&c游戏未开始,你不能进行交互!"
+listener-sign-click-hand: "&c空手点击木牌!"
+status-running: "&a&l运行中"
+status-stopped: "&4&l已停止"
+status-ready: "&5&l准备中"
+status-waiting: "&b&l等待中..."
+status-broken: "&4&l已损坏"
+status-rollback: "&c&l刷新中..."
+status-notready: "&1&l未准备"
+status-beginning: "&a&l运行中"
+status-countdown: "&b&l开始中..."
+status-final: "&b&l游戏结束"
+spectator-menu-title: "传送"
+spectator-menu-content: "选择玩家传送:"
+death-fell-accident-generic:
+- "&3{%0} 高处坠落而死"
+death-attack-inFire:
+- "&3{%0} 引火上身"
+death-attack-onFire:
+- "&3{%0} 欲火焚身"
+death-attack-lava:
+- "&3{%0} 试图在岩浆里有用"
+death-attack-lava-magma:
+- "&3{%0} 发现地板时岩浆"
+death-attack-inWall:
+- "&3{%0} 窒息而死"
+death-attack-drown:
+- "&3{%0} 被水呛死"
+death-attack-cactus:
+- "&3{%0} 遭遇刺杀"
+death-attack-generic:
+- "&3{%0} 已死亡"
+death-attack-explosion:
+- "&3{%0} 爆炸而死"
+death-attack-explosion-player:
+- "&3{%0} 被 {%1} 炸死了"
+death-attack-magic:
+- "&3{%0} 被魔法杀死"
+death-attack-wither:
+- "&3{%0} 凋零而死"
+death-attack-mob:
+- "&3{%0} 被 {%1} 击杀"
+death-attack-player:
+- "&3{%0} 被 {%1} 击杀"
+death-attack-player-item:
+- "&3{%0} 被 {%1} 用 {%2} 击杀"
+death-attack-arrow:
+- "&3{%0} 被 {%1} 射杀"
+death-attack-arrow-item:
+- "&3{%0} 被 {%1} 用 {%2} 射杀"
+death-attack-fall:
+- "&3{%0} 摔的过重"
+death-attack-outOfWorld:
+- "&3{%0} 掉出来这个世界"
+death-attack-starve:
+- "&3{%0} 饿死了"
