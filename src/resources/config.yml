@@ -17,6 +17,8 @@ settings:
   max-bonus-chestcontent: 5
   # Minimum amount of items that will spawn in bonus chests
   min-bonus-chestcontent: 1
+  # If set to true hide player's nametag
+  hide-player-name: false
   globalexit:
     enable: false
     level: world

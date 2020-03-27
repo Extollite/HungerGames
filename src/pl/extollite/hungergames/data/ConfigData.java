@@ -33,6 +33,7 @@ public class ConfigData {
     public static int teleportEndTime;
     public static Location globalExit;
     public static int freeRoam;
+    public static boolean hide_player_name;
 
     //Rollback config info
     public static boolean breakblocks;
@@ -86,6 +87,7 @@ public class ConfigData {
         teleportEnd = config.getBoolean("settings.teleport-at-end");
         teleportEndTime = config.getInt("settings.teleport-at-end-time");
         freeRoam = config.getInt("settings.free-roam");
+        hide_player_name = config.getBoolean("settings.hide-player-name");
 
         breakblocks = config.getBoolean("rollback.allow-block-break");
         for(String name : config.getStringList("rollback.editable-blocks")){

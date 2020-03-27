@@ -342,6 +342,8 @@ public class Game {
                 heal(player);
                 freeze(player);
                 kills.put(player, 0);
+                if(ConfigData.hide_player_name)
+                    player.setNameTagAlwaysVisible(false);
 
                 if (players.size() == 1 && status == Status.READY)
                     status = Status.WAITING;
@@ -714,6 +716,8 @@ public class Game {
 
     private void exit(Player player) {
         player.invulnerable = false;
+        if(ConfigData.hide_player_name)
+            player.setNameTagAlwaysVisible(true);
         if (this.exit != null && this.getExit().getLevel() != null)
             player.teleport(this.getExit());
         else
