@@ -18,7 +18,7 @@ Checkout [Wiki](https://github.com/Extollite/HungerGames/wiki) for configuration
 
 ## TODO
 - [x] Random chests generating. [#1](https://github.com/Extollite/HungerGames/pull/1)
-- [ ] Scoreboard informations.
+- [ ] Scoreboard informations(Needs scoreboard api for nukkit 2.0). 
 - [ ] Placeholders(Needs placeholder api for nukkit 2.0).
 - [ ] Kits.
 - [ ] Teams.
