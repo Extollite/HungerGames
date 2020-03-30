@@ -4,11 +4,18 @@ import cn.nukkit.item.Item;
 import cn.nukkit.player.Player;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
+import de.lucgameshd.scoreboard.api.ScoreboardAPI;
+import de.lucgameshd.scoreboard.network.DisplaySlot;
+import de.lucgameshd.scoreboard.network.Scoreboard;
+import de.lucgameshd.scoreboard.network.ScoreboardDisplay;
+import de.lucgameshd.scoreboard.network.SortOrder;
 import lombok.Getter;
+import lombok.Setter;
 import pl.extollite.hungergames.command.admin.*;
 import pl.extollite.hungergames.command.user.*;
 import pl.extollite.hungergames.data.*;
 import pl.extollite.hungergames.game.Game;
+import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.listener.CancelListener;
 import pl.extollite.hungergames.listener.GameListener;
 import pl.extollite.hungergames.listener.SpectatorWindowListener;
@@ -24,6 +31,7 @@ public class HG extends PluginBase {
         return instance;
     }
 
+    private Scoreboard lobbySB;
 
     private Language language;
     private PlayerManager playerManager;
@@ -48,6 +56,15 @@ public class HG extends PluginBase {
         language = new Language();
         playerManager = new PlayerManager();
         leaderboard = new Leaderboard();
+        if(this.getServer().getPluginManager().getPlugin("ScoreboardAPI") != null && ConfigData.sb_enable){
+            lobbySB = ScoreboardAPI.createScoreboard();
+            updateLobbyScoreboard();
+        }
+        else if(ConfigData.sb_enable){
+            this.getLogger().error("ScoreboardAPI don't provided!");
+            this.getLogger().error("Turning off!");
+            this.getPluginLoader().disablePlugin(this);
+        }
         RandomItems.load();
         ArenaData.load();
 
@@ -187,5 +204,21 @@ public class HG extends PluginBase {
         games.clear();
         items.clear();
         bonusItems.clear();
+    }
+
+    public void updateLobbyScoreboard(){
+        lobbySB.removeDisplay(DisplaySlot.SIDEBAR);
+        ScoreboardDisplay display = lobbySB.addDisplay( DisplaySlot.SIDEBAR, "topwins", HGUtils.colorize(language.getSb_lobby_title()), SortOrder.DESCENDING);
+        int max = 10;
+        for(String uuid : leaderboard.getStatsPlayers(Leaderboard.Stats.WINS)){
+            if(max > 0){
+                UUID playerUUID = UUID.fromString(uuid);
+                Optional<Player> playerOptional = this.getServer().getPlayer(playerUUID);
+                if(playerOptional.isPresent()){
+                    display.addLine(playerOptional.get().getDisplayName(), leaderboard.getStat(playerUUID, Leaderboard.Stats.WINS));
+                    --max;
+                }
+            }
+        }
     }
 }

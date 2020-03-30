@@ -103,6 +103,17 @@ lobby-sign:
   line-4-join: '&0&lBeitreten %game_name%'
   line-4-spectate: '&0&lZuschauen %game_name%'
 
+# Lobby ScoreBoard
+sb-lobby-title: "&1&lTop Winers";
+
+# Game Scoreboard
+sb-game-alive: '&ePlayers alive:'
+sb-game-alive-count: '&e     %players_count%'
+sb-game-kills: '&eYour kills:'
+sb-game-kills-count: '&e     %player_kills%'
+sb-game-time: '&eTime left:'
+sb-game-time-value: '&e%timer%'
+
 # Handler
 cmd-handler-nocmd: '&cSie können im Spiel keine HungerGames-Befehle verwenden!'
 cmd-handler-playing: '&cDieser Spieler spielt gerade &3HungerGames!'

@@ -5,6 +5,10 @@ lang: "en_En"
 #if false also overloads commands will be listed
 only-main-commands: true
 
+scoreboard:
+  enable: false
+  lobby-level: "world"
+
 #Game Settings
 settings:
   # The time once the game starts, how long they are safe from PvP (In seconds)

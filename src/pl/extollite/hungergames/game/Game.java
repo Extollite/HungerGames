@@ -17,6 +17,11 @@ import cn.nukkit.registry.BlockEntityRegistry;
 import cn.nukkit.registry.GeneratorRegistry;
 import cn.nukkit.utils.Identifier;
 import com.nukkitx.math.vector.Vector3i;
+import de.lucgameshd.scoreboard.api.ScoreboardAPI;
+import de.lucgameshd.scoreboard.network.DisplayEntry;
+import de.lucgameshd.scoreboard.network.DisplaySlot;
+import de.lucgameshd.scoreboard.network.Scoreboard;
+import de.lucgameshd.scoreboard.network.ScoreboardDisplay;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -85,6 +90,8 @@ public class Game {
 
     private boolean spectate = ConfigData.spectateEnabled;
     private boolean spectateOnDeath = ConfigData.spectateOnDeath;
+
+    private Map<Player, Scoreboard> scoreboards = new HashMap<>();
 
     /**
      * Create a new game
@@ -342,6 +349,7 @@ public class Game {
                 heal(player);
                 freeze(player);
                 kills.put(player, 0);
+                HG.getInstance().getLobbySB().hideFor(player);
                 if(ConfigData.hide_player_name)
                     player.setNameTagAlwaysVisible(false);
 
@@ -380,6 +388,8 @@ public class Game {
         status = Status.COUNTDOWN;
         starting = new StartingTask(this);
         updateLobbyBlock();
+        if(ConfigData.sb_enable)
+            updateScoreboard();
     }
 
     /**
@@ -579,13 +589,13 @@ public class Game {
      */
     public void stop(boolean death) {
         bound.removeEntities();
-        List<UUID> win = new ArrayList<>();
+        List<Player> win = new ArrayList<>();
         cancelTasks();
         for (Player p : players) {
             heal(p);
             playerManager.getPlayerData(p).restore(p);
             playerManager.removePlayerData(p);
-            win.add(p.getServerId());
+            win.add(p);
             exit(p);
         }
         players.clear();
@@ -599,9 +609,9 @@ public class Game {
         spectators.clear();
 
         if (!win.isEmpty() && death) {
-            for (UUID u : win) {
-                plugin.getLeaderboard().addStat(u, Leaderboard.Stats.WINS);
-                plugin.getLeaderboard().addStat(u, Leaderboard.Stats.GAMES);
+            for (Player p : win) {
+                plugin.getLeaderboard().addStat(p, Leaderboard.Stats.WINS);
+                plugin.getLeaderboard().addStat(p, Leaderboard.Stats.GAMES);
             }
         }
 
@@ -614,7 +624,7 @@ public class Game {
         }
         chests.clear();
         playerChests.clear();
-        String winner = String.join(", ", HGUtils.convertUUIDListToStringList(win));
+        String winner = String.join(", ", HGUtils.convertPlayerListToStringList(win));
         // prevent not death winners from gaining a prize
         if (death)
             HGUtils.broadcast(getLang().getPlayer_won().replace("%arena%", name).replace("%winner%", winner));
@@ -624,14 +634,9 @@ public class Game {
             chooseChestLocations();
         status = Status.READY;
         updateLobbyBlock();
+        HG.getInstance().updateLobbyScoreboard();
 
-        // Call GameEndEvent
-        Collection<Player> winners = new ArrayList<>();
-        for (UUID uuid : win) {
-            Optional<Player> playerOptional = HG.getInstance().getServer().getPlayer(uuid);
-            playerOptional.ifPresent(winners::add);
-        }
-        plugin.getServer().getPluginManager().callEvent(new GameEndEvent(this, winners, death));
+        plugin.getServer().getPluginManager().callEvent(new GameEndEvent(this, win, death));
     }
 
     /**
@@ -662,6 +667,8 @@ public class Game {
             exit(player);
         }
         updateAfterDeath(player, death);
+        if(ConfigData.sb_enable)
+            updateScoreboard();
     }
 
     private void updateAfterDeath(Player player, boolean death) {
@@ -716,10 +723,16 @@ public class Game {
 
     private void exit(Player player) {
         player.invulnerable = false;
+        unFreeze(player);
+        HG.getInstance().getLobbySB().showFor(player);
         if(ConfigData.hide_player_name)
             player.setNameTagAlwaysVisible(true);
-        if (this.exit != null && this.getExit().getLevel() != null)
+        if (this.exit != null && this.getExit().getLevel() != null){
+            if(ConfigData.sb_enable && this.getExit().getLevel().getId().equals(ConfigData.sb_lobby_world))
+                ScoreboardAPI.setScoreboard(player, HG.getInstance().getLobbySB());
             player.teleport(this.getExit());
+
+        }
         else
             player.teleport(HG.getInstance().getServer().getDefaultLevel().getSpawnLocation());
     }
@@ -798,6 +811,51 @@ public class Game {
                 if (entity != null && !entity.isClosed())
                     entity.close();
             }
+        }
+    }
+    public void updateScoreboard(){
+        String alive_title = HGUtils.colorize(lang.getSb_game_alive());
+        String alive_count = HGUtils.colorize(lang.getSb_game_alive_count()).replace("%players_count%", players.size() +"/"+maxPlayers);
+        String kills_title = HGUtils.colorize(lang.getSb_game_kills());
+        String time_title = HGUtils.colorize(lang.getSb_game_time());
+        int remainingTime = timer.getRemainingtime();
+        String timer;
+        if(remainingTime == time){
+            String minutes = String.valueOf(remainingTime/60);
+            String seconds = String.valueOf(remainingTime%60);
+            timer = (minutes.length() == 1 ? "0"+minutes : minutes)+":"+(seconds.length() == 1 ? "0"+seconds : seconds);
+        }
+        else{
+            timer = "FreeRoam!";
+        }
+        String time_value = HGUtils.colorize(lang.getSb_game_time_value()).replace("%timer%", timer);
+        for(Player player : players){
+            Scoreboard scoreboard = ScoreboardAPI.createScoreboard();
+            ScoreboardDisplay display = scoreboard.addDisplay(DisplaySlot.SIDEBAR, this.getName(), HGUtils.colorize(lang.getLine_1()));
+            display.addLine(alive_title, 0);
+            display.addLine(alive_count, 1);
+            display.addLine(kills_title, 2);
+            display.addLine(HGUtils.colorize(lang.getSb_game_alive_count()).replace("%player_kills%", String.valueOf(kills.get(player))), 3);
+            display.addLine(time_title, 4);
+            display.addLine(timer, 5);
+            if(scoreboards.containsKey(player))
+                scoreboards.get(player).hideFor(player);
+            scoreboard.showFor(player);
+            scoreboards.put(player, scoreboard);
+        }
+        for(Player player : spectators){
+            Scoreboard scoreboard = ScoreboardAPI.createScoreboard();
+            ScoreboardDisplay display = scoreboard.addDisplay(DisplaySlot.SIDEBAR, this.getName(), HGUtils.colorize(lang.getLine_1()));
+            display.addLine(alive_title, 0);
+            display.addLine(alive_count, 1);
+            display.addLine(kills_title, 2);
+            display.addLine(HGUtils.colorize(lang.getSb_game_alive_count()).replace("%player_kills%", String.valueOf(kills.get(player))), 3);
+            display.addLine(time_title, 4);
+            display.addLine(timer, 5);
+            if(scoreboards.containsKey(player))
+                scoreboards.get(player).hideFor(player);
+            scoreboard.showFor(player);
+            scoreboards.put(player, scoreboard);
         }
     }
 }

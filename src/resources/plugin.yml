@@ -6,3 +6,5 @@ load: POSTWORLD
 authors: ["bob7l", "Spoopy", "ShaneBee", "Extollite"]
 description: Nukkit hunger games plugin
 prefix: "${pom.artifactId}"
+softdepend:
+  - ScoreboardAPI
