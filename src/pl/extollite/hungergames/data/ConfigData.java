@@ -1,20 +1,27 @@
 package pl.extollite.hungergames.data;
 
 import cn.nukkit.block.Block;
+import cn.nukkit.inventory.InventoryType;
 import cn.nukkit.item.Item;
 import cn.nukkit.item.ItemIds;
 import cn.nukkit.level.Location;
+import cn.nukkit.network.protocol.types.ContainerIds;
+import cn.nukkit.potion.Effect;
 import cn.nukkit.registry.RegistryException;
 import cn.nukkit.utils.Config;
+import cn.nukkit.utils.ConfigSection;
 import cn.nukkit.utils.Identifier;
 import cn.nukkit.utils.TextFormat;
+import com.nukkitx.protocol.bedrock.data.ContainerType;
 import lombok.Getter;
 import pl.extollite.hungergames.hgutils.HGItemIds;
 import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.HG;
+import pl.extollite.hungergames.manager.ItemManager;
+import pl.extollite.hungergames.manager.KitManager;
+import sun.jvm.hotspot.utilities.HeapHprofBinWriter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 public class ConfigData {
@@ -120,5 +127,12 @@ public class ConfigData {
         }
         else
             globalExit = null;
+
+        if(config.getSection("kits") != null){
+            KitManager kitManager = new KitManager();
+            kitManager.loadKits(config, "kits");
+            HG.getInstance().setKitManager(kitManager);
+        }
+
     }
 }

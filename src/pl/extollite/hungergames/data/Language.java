@@ -118,6 +118,10 @@ public class Language {
     private String spectator_menu_content;
     private String spectator_compass;
 
+    //Kit Translations
+    private String kit_menu_title;
+    private String kit_menu_content;
+
     //Roam Translations
     private String roam_game_started;
     private String roam_time;
@@ -254,6 +258,9 @@ public class Language {
         spectator_menu_title = langFile.getString("spectator-menu-title");
         spectator_menu_content = langFile.getString("spectator-menu-content");
         spectator_compass = langFile.getString("spectator-compass");
+
+        kit_menu_title = langFile.getString("kit-menu-title");
+        kit_menu_content = langFile.getString("kit-menu-content");
 
         roam_game_started = langFile.getString("roam-game-started");
         roam_time = langFile.getString("roam-time");

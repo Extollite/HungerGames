@@ -2,9 +2,7 @@ package pl.extollite.hungergames.game;
 
 import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockIds;
-import cn.nukkit.blockentity.Barrel;
 import cn.nukkit.blockentity.BlockEntity;
-import cn.nukkit.blockentity.Chest;
 import cn.nukkit.blockentity.Sign;
 import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.item.Item;
@@ -21,12 +19,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.extollite.hungergames.HG;
+import pl.extollite.hungergames.form.KitMenuWindow;
 import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.data.ConfigData;
 import pl.extollite.hungergames.data.Language;
 import pl.extollite.hungergames.data.Leaderboard;
 import pl.extollite.hungergames.data.PlayerData;
 import pl.extollite.hungergames.events.*;
+import pl.extollite.hungergames.manager.KitManager;
 import pl.extollite.hungergames.manager.PlayerManager;
 import pl.extollite.hungergames.tasks.*;
 import pl.extollite.hungergames.tasks.TimerTask;
@@ -85,6 +85,8 @@ public class Game {
 
     private boolean spectate = ConfigData.spectateEnabled;
     private boolean spectateOnDeath = ConfigData.spectateOnDeath;
+
+    private KitManager kitManager;
 
     /**
      * Create a new game
@@ -344,6 +346,8 @@ public class Game {
                 kills.put(player, 0);
                 if(ConfigData.hide_player_name)
                     player.setNameTagAlwaysVisible(false);
+                if(kitManager != null)
+                    player.showFormWindow(new KitMenuWindow(player, this));
 
                 if (players.size() == 1 && status == Status.READY)
                     status = Status.WAITING;

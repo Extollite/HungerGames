@@ -2,8 +2,7 @@ package pl.extollite.hungergames.command.admin;
 
 import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockSignPost;
-import cn.nukkit.blockentity.BlockEntity;
-import cn.nukkit.blockentity.Sign;
+import cn.nukkit.blockentity.*;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
@@ -47,7 +46,7 @@ public class ConvertChestsCommand extends CommandManager {
             }
             Config arenas = new Config(HG.getInstance().getDataFolder()+"/arenas.yml", Config.YAML);
             for(BlockEntity blockEntity : g.getBound().getLevel().getBlockEntities()){
-                if(blockEntity instanceof InventoryHolder && !g.getChestLocations().contains(blockEntity.getBlock().getPosition())){
+                if( (blockEntity instanceof Chest || blockEntity instanceof Barrel || blockEntity instanceof ShulkerBox) && !g.getChestLocations().contains(blockEntity.getBlock().getPosition())){
                     Block b = blockEntity.getBlock();
                     g.addChestLocation(b.getPosition());
                     int chestNumber = g.getChestLocations().size();

@@ -5,11 +5,15 @@ import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 import cn.nukkit.level.gamerule.GameRules;
+import cn.nukkit.potion.Effect;
 import cn.nukkit.utils.Config;
+import cn.nukkit.utils.ConfigSection;
 import com.nukkitx.math.vector.Vector3i;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.game.Bound;
 import pl.extollite.hungergames.game.Game;
+import pl.extollite.hungergames.manager.ItemManager;
+import pl.extollite.hungergames.manager.KitManager;
 
 import java.util.*;
 
@@ -85,6 +89,15 @@ public class ArenaData {
                     game.setChestLocations(chests);
                     game.chooseChestLocations();
                 }
+
+                KitManager kitManager;
+                if(arenas.getSection("arenas." + arena + ".kits") != null) {
+                    kitManager = new KitManager();
+                    kitManager.loadKits(arenas, "arenas." + arena + ".kits");
+                }
+                else
+                    kitManager = HG.getInstance().getKitManager();
+                game.setKitManager(kitManager);
             }
         }
         else{

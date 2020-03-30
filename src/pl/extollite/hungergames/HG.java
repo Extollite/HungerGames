@@ -5,29 +5,29 @@ import cn.nukkit.player.Player;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
 import lombok.Getter;
+import lombok.Setter;
 import pl.extollite.hungergames.command.admin.*;
 import pl.extollite.hungergames.command.user.*;
 import pl.extollite.hungergames.data.*;
 import pl.extollite.hungergames.game.Game;
-import pl.extollite.hungergames.listener.CancelListener;
-import pl.extollite.hungergames.listener.GameListener;
-import pl.extollite.hungergames.listener.SpectatorWindowListener;
-import pl.extollite.hungergames.listener.WandListener;
+import pl.extollite.hungergames.listener.*;
+import pl.extollite.hungergames.manager.KitManager;
 import pl.extollite.hungergames.manager.PlayerManager;
 
 import java.util.*;
 
 @Getter
+@Setter
 public class HG extends PluginBase {
     private static HG instance;
     public static HG getInstance() {
         return instance;
     }
 
-
     private Language language;
     private PlayerManager playerManager;
     private Leaderboard leaderboard;
+    private KitManager kitManager;
 
     private HGACommand mainAdminCommand;
     private HGCommand mainCommand;
@@ -36,6 +36,8 @@ public class HG extends PluginBase {
     private List<Game> games = new LinkedList<>();
     private Map<Integer, Item> items = new HashMap<>();
     private Map<Integer, Item> bonusItems = new HashMap<>();
+
+    private boolean kitEnabled = false;
 
     @Override
     public void onEnable() {
@@ -53,10 +55,13 @@ public class HG extends PluginBase {
 
         getServer().getPluginManager().registerEvents(new WandListener(), this);
         getServer().getPluginManager().registerEvents(new CancelListener(), this);
-        getServer().getPluginManager().registerEvents(new SpectatorWindowListener(), this);
+        if(ConfigData.spectateEnabled)
+            getServer().getPluginManager().registerEvents(new SpectatorWindowListener(), this);
+        if(kitEnabled)
+            getServer().getPluginManager().registerEvents(new KitWindowListener(), this);
         getServer().getPluginManager().registerEvents(new GameListener(), this);
 
-        loadCommmands();
+        loadCommands();
     }
 
     @Override
@@ -69,7 +74,7 @@ public class HG extends PluginBase {
         this.getLogger().info(TextFormat.RED +"HG has been disabled!");
     }
 
-    private void loadCommmands(){
+    private void loadCommands(){
         mainAdminCommand = new HGACommand();
         mainCommand = new HGCommand();
         this.getServer().getCommandMap().register(this, this.mainAdminCommand);
@@ -79,8 +84,11 @@ public class HG extends PluginBase {
             mainCommand.registerCommand(new LeaveCommand());
             mainCommand.registerCommand(new ListCommand());
             mainCommand.registerCommand(new ListGamesCommand());
-            mainCommand.registerCommand(new SpectateCommand());
+            if(ConfigData.spectateEnabled)
+                mainCommand.registerCommand(new SpectateCommand());
             mainCommand.registerCommand(new TpCommand());
+            if(kitEnabled)
+                mainCommand.registerCommand(new KitCommand());
             
             mainAdminCommand.registerCommand(new WandCommand());
             mainAdminCommand.registerCommand(new CreateCommand());
@@ -112,13 +120,20 @@ public class HG extends PluginBase {
             ListGamesCommand listgamesCommand = new ListGamesCommand();
             mainCommand.registerCommand(listgamesCommand);
             this.getServer().getCommandMap().register(this, listgamesCommand);
-            SpectateCommand spectateCommand = new SpectateCommand();
-            mainCommand.registerCommand(spectateCommand);
-            this.getServer().getCommandMap().register(this, spectateCommand);
+            if(ConfigData.spectateEnabled){
+                SpectateCommand spectateCommand = new SpectateCommand();
+                mainCommand.registerCommand(spectateCommand);
+                this.getServer().getCommandMap().register(this, spectateCommand);
+            }
             TpCommand tpCommand = new TpCommand();
             mainCommand.registerCommand(tpCommand);
             this.getServer().getCommandMap().register(this, tpCommand);
-            
+            if(kitEnabled){
+                KitCommand kitCommand = new KitCommand();
+                mainCommand.registerCommand(kitCommand);
+                this.getServer().getCommandMap().register(this, kitCommand);
+            }
+
             WandCommand wandCommand = new WandCommand();
             mainAdminCommand.registerCommand(wandCommand);
             this.getServer().getCommandMap().register(this, wandCommand);
