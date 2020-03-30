@@ -24,6 +24,8 @@ import cn.nukkit.player.Player;
 import cn.nukkit.utils.Identifier;
 import com.nukkitx.math.vector.Vector2i;
 import com.nukkitx.protocol.bedrock.packet.SetSpawnPositionPacket;
+import de.lucgameshd.scoreboard.api.ScoreboardAPI;
+import de.lucgameshd.scoreboard.network.Scoreboard;
 import pl.extollite.hungergames.HG;
 import pl.extollite.hungergames.hgutils.HGUtils;
 import pl.extollite.hungergames.data.ConfigData;
@@ -479,6 +481,8 @@ public class GameListener implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent ev){
         ev.getPlayer().teleportImmediate(ConfigData.globalExit); //Nukkit 2.0 fix
+        if(ConfigData.sb_enable && ev.getPlayer().getLevel().getId().equals(ConfigData.sb_lobby_world))
+            ScoreboardAPI.setScoreboard(ev.getPlayer(), HG.getInstance().getLobbySB());
     }
 
     @EventHandler
@@ -499,6 +503,8 @@ public class GameListener implements Listener {
     private void onTeleportIntoArena(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
         Location location = event.getTo();
+        if(ConfigData.sb_enable && location.getLevel().getId().equals(ConfigData.sb_lobby_world))
+            ScoreboardAPI.setScoreboard(player, HG.getInstance().getLobbySB());
         for (Game game : plugin.getGames()) {
             if (game.isInRegion(location) && (game.getStatus() == Status.RUNNING || game.getStatus() == Status.FINAL || game.getStatus() == Status.FINAL_COUNTDOWN)) {
                 if (event.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL && !game.getPlayers().contains(player) && !game.getSpectators().contains(player)) {

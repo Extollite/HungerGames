@@ -22,6 +22,9 @@ public class ConfigData {
 
     public static boolean only_main_commands;
 
+    public static boolean sb_enable;
+    public static String sb_lobby_world;
+
     public static Item wandItem;
 
     public static boolean bossbar;
@@ -61,6 +64,9 @@ public class ConfigData {
         lang = config.getString("lang", "en_En");
 
         only_main_commands = config.getBoolean("only-main-commands");
+
+        sb_enable = config.getBoolean("scoreboard.enable");
+        sb_lobby_world = config.getString("scoreboard.lobby-level");
 
         Identifier id = Identifier.fromString(config.getString("wand.id"));
         try{

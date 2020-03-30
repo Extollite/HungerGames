@@ -113,6 +113,17 @@ public class Language {
     private String line_4_join;
     private String line_4_spectate;
 
+    //Scoreboard translations
+    private String sb_lobby_title;
+
+    private String sb_game_alive;
+    private String sb_game_alive_count;
+    private String sb_game_kills;
+    private String sb_game_kills_count;
+    private String sb_game_time;
+    private String sb_game_time_value;
+
+
     //Spectator Translations
     private String spectator_menu_title;
     private String spectator_menu_content;
@@ -250,6 +261,15 @@ public class Language {
         line_3 = langFile.getString("lobby-sign.line-3");
         line_4_join = langFile.getString("lobby-sign.line-4-join");
         line_4_spectate = langFile.getString("lobby-sign.line-4-spectate");
+
+        sb_lobby_title = langFile.getString("sb-lobby-title");
+
+        sb_game_alive = langFile.getString("sb-game-alive");
+        sb_game_alive_count = langFile.getString("sb-game-alive-count");
+        sb_game_kills = langFile.getString("sb-game-kills");
+        sb_game_kills_count = langFile.getString("sb-game-kills-count");
+        sb_game_time = langFile.getString("sb-game-time");
+        sb_game_time_value = langFile.getString("sb-game-time-value");
 
         spectator_menu_title = langFile.getString("spectator-menu-title");
         spectator_menu_content = langFile.getString("spectator-menu-content");

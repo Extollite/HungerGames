@@ -64,6 +64,16 @@ lobby-sign:
   line-3: "%players_count%"
   line-4-join: "&0&l加入 %game_name%"
   line-4-spectate: "&0&l观看 %game_name%"
+# Lobby ScoreBoard
+sb-lobby-title: "&1&lTop Winers";
+
+# Game Scoreboard
+sb-game-alive: '&ePlayers alive:'
+sb-game-alive-count: '&e     %players_count%'
+sb-game-kills: '&eYour kills:'
+sb-game-kills-count: '&e     %player_kills%'
+sb-game-time: '&eTime left:'
+sb-game-time-value: '&e%timer%'
 cmd-handler-nocmd: "&c你不能执行HungerGames以外命令!"
 cmd-handler-playing: "&c玩家正在玩 &3饥饿游戏!"
 roam-game-started: "&4[]-[ &f&l游戏已开始! &4]-[]"

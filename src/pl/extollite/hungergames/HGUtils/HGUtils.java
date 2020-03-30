@@ -51,11 +51,10 @@ public class HGUtils {
             return "No one";
     }
 
-    public static List<String> convertUUIDListToStringList(List<UUID> uuids) {
+    public static List<String> convertPlayerListToStringList(List<Player> players) {
         List<String> winners = new ArrayList<>();
-        for (UUID uuid : uuids) {
-            Optional<Player> playerOptional = HG.getInstance().getServer().getPlayer(uuid);
-            playerOptional.ifPresent(player -> winners.add(player.getName()));
+        for (Player player : players) {
+            winners.add(player.getName());
         }
         return winners;
     }
