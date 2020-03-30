@@ -478,11 +478,6 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    private void onJoin(PlayerJoinEvent ev){
-        ev.getPlayer().teleportImmediate(ConfigData.globalExit); //Nukkit 2.0 fix
-    }
-
-    @EventHandler
     private void onChat(PlayerChatEvent event) {
         if (!ConfigData.spectateChat) {
             Player spectator = event.getPlayer();
