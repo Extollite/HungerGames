@@ -85,6 +85,11 @@ status-countdown: "&b&l开始中..."
 status-final: "&b&l游戏结束"
 spectator-menu-title: "传送"
 spectator-menu-content: "选择玩家传送:"
+
+# KIT MESSAGES
+kit-menu-title: "KitManager"
+kit-menu-content: "Choose kit:"
+
 death-fell-accident-generic:
 - "&3{%0} 高处坠落而死"
 death-attack-inFire:
