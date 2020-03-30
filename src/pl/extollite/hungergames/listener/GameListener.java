@@ -146,7 +146,8 @@ public class GameListener implements Listener {
         PlayerData pd = playerManager.getPlayerData(p);
         if(pd != null){
             if(hasTotem(p)) return;
-            ev.setCancelled();
+            ev.setCancelled(true);
+            ev.setDeathMessage("");
             processDeath(p, pd.getGame(), p.getLastDamageCause());
         }
     }
