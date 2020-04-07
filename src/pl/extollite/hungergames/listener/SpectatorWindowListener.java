@@ -20,8 +20,6 @@ public class SpectatorWindowListener implements Listener {
             return;
         if(!(ev.getResponse() instanceof FormResponseSimple))
             return;
-/*        if(!((FormWindowSimple)ev.getWindow()).getTitle().equals(HGUtils.colorize(HG.getInstance().getLanguage().getSpectator_menu_title())))
-            return;*/
         if(!(ev.getWindow() instanceof SpectatorWindow))
             return;
         ElementButton elementButton = ((FormResponseSimple) ev.getResponse()).getClickedButton();

@@ -135,6 +135,10 @@ status-final: '&b&lFinale'
 spectator-menu-title: "Teleportieren"
 spectator-menu-content: "Wähle den Spieler aus, zu dem du teleportieren möchtest:"
 
+# KIT MESSAGES
+kit-menu-title: "KitManager"
+kit-menu-content: "Choose kit:"
+
 #Death messages
 death-fell-accident-generic:
   - "&3{%0} stürzte in die Tiefe"

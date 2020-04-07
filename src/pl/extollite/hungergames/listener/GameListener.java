@@ -146,7 +146,8 @@ public class GameListener implements Listener {
         PlayerData pd = playerManager.getPlayerData(p);
         if(pd != null){
             if(hasTotem(p)) return;
-            ev.setCancelled();
+            ev.setCancelled(true);
+            ev.setDeathMessage("");
             processDeath(p, pd.getGame(), p.getLastDamageCause());
         }
     }
@@ -474,11 +475,6 @@ public class GameListener implements Listener {
             player.teleportImmediate(playerManager.getSpectatorData(player).getGame().getExit());
             playerManager.getSpectatorData(player).getGame().leaveSpectate(player);
         }
-    }
-
-    @EventHandler
-    private void onJoin(PlayerJoinEvent ev){
-        ev.getPlayer().teleportImmediate(ConfigData.globalExit); //Nukkit 2.0 fix
     }
 
     @EventHandler

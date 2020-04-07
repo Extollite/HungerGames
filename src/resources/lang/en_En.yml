@@ -140,6 +140,10 @@ status-final: '&b&lFinal'
 spectator-menu-title: "Teleport"
 spectator-menu-content: "Choose player to teleport to:"
 
+# KIT MESSAGES
+kit-menu-title: "KitManager"
+kit-menu-content: "Choose kit:"
+
 #Death messages
 death-fell-accident-generic:
   - "&3{%0} fell from a high place"
