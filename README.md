@@ -15,10 +15,11 @@ Checkout [Wiki](https://github.com/Extollite/HungerGames/wiki) for configuration
 - Spectator mode.
 - Game final with teleporting players back to spawn.
 - Random chests generating.
+- Kits.
 
 ## TODO
 - [x] Random chests generating. [#1](https://github.com/Extollite/HungerGames/pull/1)
 - [ ] Scoreboard informations(Needs scoreboard api for nukkit 2.0). [#6](https://github.com/Extollite/HungerGames/pull/6)
 - [ ] Placeholders(Needs placeholder api for nukkit 2.0).
-- [ ] Kits. [#5](https://github.com/Extollite/HungerGames/pull/5)
+- [x] Kits. [#5](https://github.com/Extollite/HungerGames/pull/5)
 - [ ] Teams.
